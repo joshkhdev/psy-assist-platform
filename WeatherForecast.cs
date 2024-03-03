@@ -1,5 +1,8 @@
 namespace PsyAssistPlatform
 {
+    /// <summary>
+    /// WeatherForecast model
+    /// </summary>
     public class WeatherForecast
     {
         public DateOnly Date { get; set; }
