@@ -2,5 +2,3 @@
 
 GET {{PsyAssistPlatform_HostAddress}}/weatherforecast/
 Accept: application/json
-
-###
