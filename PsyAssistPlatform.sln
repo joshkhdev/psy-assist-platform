@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.Applicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.Persistence", "PsyAssistPlatform.Persistence\PsyAssistPlatform.Persistence.csproj", "{90EC87CD-B148-4802-90D2-2572E389BD2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsyAssistPlatform.WebApi", "PsyAssistPlatform.WebApi\PsyAssistPlatform.WebApi.csproj", "{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.WebApi", "PsyAssistPlatform.WebApi\PsyAssistPlatform.WebApi.csproj", "{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
