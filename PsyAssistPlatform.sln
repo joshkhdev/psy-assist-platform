@@ -1,9 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.8.34511.84
+VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsyAssistPlatform", "PsyAssistPlatform.csproj", "{A0455B6E-EBA4-4E04-8D95-3AA8FF86C4C5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{42BFE1E7-619D-4483-ADA1-3A3E41B8B587}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{0E4D0CCC-9E36-4D0E-A545-4C05FC78FF33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{15529B11-2379-4945-AA67-F132718D7F15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1190B396-54F8-4822-8415-A62A83AF31B4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.Domain", "PsyAssistPlatform.Domain\PsyAssistPlatform.Domain.csproj", "{64C9F572-206C-4574-8D32-FBC7B64996FD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.Application", "PsyAssistPlatform.Application\PsyAssistPlatform.Application.csproj", "{C1F39FB5-0588-4267-8160-49C0F2456069}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.Persistence", "PsyAssistPlatform.Persistence\PsyAssistPlatform.Persistence.csproj", "{90EC87CD-B148-4802-90D2-2572E389BD2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.WebApi", "PsyAssistPlatform.WebApi\PsyAssistPlatform.WebApi.csproj", "{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +25,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A0455B6E-EBA4-4E04-8D95-3AA8FF86C4C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0455B6E-EBA4-4E04-8D95-3AA8FF86C4C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0455B6E-EBA4-4E04-8D95-3AA8FF86C4C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0455B6E-EBA4-4E04-8D95-3AA8FF86C4C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C9F572-206C-4574-8D32-FBC7B64996FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C9F572-206C-4574-8D32-FBC7B64996FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C9F572-206C-4574-8D32-FBC7B64996FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C9F572-206C-4574-8D32-FBC7B64996FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1F39FB5-0588-4267-8160-49C0F2456069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1F39FB5-0588-4267-8160-49C0F2456069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1F39FB5-0588-4267-8160-49C0F2456069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1F39FB5-0588-4267-8160-49C0F2456069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90EC87CD-B148-4802-90D2-2572E389BD2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90EC87CD-B148-4802-90D2-2572E389BD2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90EC87CD-B148-4802-90D2-2572E389BD2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90EC87CD-B148-4802-90D2-2572E389BD2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E4E87A17-931E-41EE-9E7E-F942F6788D16}
+	GlobalSection(NestedProjects) = preSolution
+		{64C9F572-206C-4574-8D32-FBC7B64996FD} = {42BFE1E7-619D-4483-ADA1-3A3E41B8B587}
+		{C1F39FB5-0588-4267-8160-49C0F2456069} = {42BFE1E7-619D-4483-ADA1-3A3E41B8B587}
+		{90EC87CD-B148-4802-90D2-2572E389BD2A} = {0E4D0CCC-9E36-4D0E-A545-4C05FC78FF33}
+		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819} = {15529B11-2379-4945-AA67-F132718D7F15}
 	EndGlobalSection
 EndGlobal
