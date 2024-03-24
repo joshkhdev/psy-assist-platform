@@ -1,12 +1,11 @@
-﻿namespace PsyAssistPlatform.Domain
-{
-    /// <summary>
-    /// Психологический подход
-    /// </summary>
-    public sealed class Approach
-    {
-        public int Id { get; set; }
+﻿namespace PsyAssistPlatform.Domain;
 
-        public string Name { get; set; }
-    }
+/// <summary>
+/// Психологический подход
+/// </summary>
+public sealed class Approach
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; }
 }

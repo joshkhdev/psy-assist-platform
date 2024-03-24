@@ -1,12 +1,11 @@
-﻿namespace PsyAssistPlatform.Domain
-{
-    /// <summary>
-    /// Статус заявки
-    /// </summary>
-    public sealed class Status
-    {
-        public int Id { get; set; }
+﻿namespace PsyAssistPlatform.Domain;
 
-        public string Name { get; set; }
-    }
+/// <summary>
+/// Статус заявки
+/// </summary>
+public sealed class Status
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; }
 }

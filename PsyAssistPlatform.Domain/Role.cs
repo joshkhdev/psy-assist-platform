@@ -1,12 +1,11 @@
-﻿namespace PsyAssistPlatform.Domain
-{
-    /// <summary>
-    /// Роль пользователя
-    /// </summary>
-    public sealed class Role
-    {
-        public int Id { get; set; }
+﻿namespace PsyAssistPlatform.Domain;
 
-        public string Name { get; set; }
-    }
+/// <summary>
+/// Роль пользователя
+/// </summary>
+public sealed class Role
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; }
 }
