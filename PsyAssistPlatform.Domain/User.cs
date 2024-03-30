@@ -3,10 +3,8 @@
 /// <summary>
 /// Пользователь
 /// </summary>
-public sealed class User
+public class User : BaseEntity
 {
-    public int Id { get; set; }
-    
     public string Name { get; set; }
     
     public string Email { get; set; }
@@ -17,6 +15,6 @@ public sealed class User
     
     public int RoleId { get; set; }
     
-    public Role Role { get; set; }
+    public virtual Role Role { get; set; }
 }
 
