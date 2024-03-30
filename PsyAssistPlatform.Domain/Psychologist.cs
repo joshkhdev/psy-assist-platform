@@ -1,5 +1,8 @@
 ﻿namespace PsyAssistPlatform.Domain;
 
+/// <summary>
+/// Психолог
+/// </summary>
 public sealed class Psychologist
 {
     public int Id { get; set; }
