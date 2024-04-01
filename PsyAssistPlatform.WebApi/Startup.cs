@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using PsyAssistPlatform.Application.Interfaces;
+using PsyAssistPlatform.Persistence;
+using PsyAssistPlatform.Persistence.Repositories;
+
 namespace PsyAssistPlatform.WebApi;
 
 public class Startup
@@ -14,6 +19,15 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        
+        services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
+        
+        services.AddDbContext<PsyAssistContext>(options =>
+        {
+            options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseLazyLoadingProxies();
+            options.EnableSensitiveDataLogging();
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

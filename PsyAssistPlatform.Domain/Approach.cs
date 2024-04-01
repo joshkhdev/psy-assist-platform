@@ -3,9 +3,7 @@
 /// <summary>
 /// Психологический подход
 /// </summary>
-public sealed class Approach
+public class Approach : BaseEntity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 }

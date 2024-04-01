@@ -3,10 +3,8 @@
 /// <summary>
 /// Анкета
 /// </summary>
-public class Questionnaire
+public class Questionnaire : BaseEntity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public string Pronouns { get; set; }
@@ -16,6 +14,8 @@ public class Questionnaire
     public TimeZoneInfo TimeZone { get; set; }
 
     public int ContactId { get; set; }
+    
+    public virtual Contact Contact { get; set; }
 
     public string NeuroDifferences { get; set; }
 

@@ -7,11 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Models\Approach\" />
+    <Folder Include="Models\Contact\" />
+    <Folder Include="Models\Psychologist\" />
+    <Folder Include="Models\Questionnaire\" />
+    <Folder Include="Models\Role\" />
+    <Folder Include="Models\Status\" />
+    <Folder Include="Models\User\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PsyAssistPlatform.Application\PsyAssistPlatform.Application.csproj" />
+    <ProjectReference Include="..\PsyAssistPlatform.Persistence\PsyAssistPlatform.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
