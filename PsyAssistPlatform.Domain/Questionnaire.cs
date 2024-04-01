@@ -30,4 +30,6 @@ public class Questionnaire
     public bool IsForPay { get; set; }
 
     public DateTime RegistrationDate { get; set; }
+
+    public Contact Contact { get; set; }
 }
