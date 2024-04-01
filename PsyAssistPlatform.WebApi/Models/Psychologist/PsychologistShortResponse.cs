@@ -1,10 +1,9 @@
-﻿namespace PsyAssistPlatform.Domain;
+﻿namespace PsyAssistPlatform.WebApi.Models.Psychologist;
 
-/// <summary>
-/// Психолог
-/// </summary>
-public class Psychologist : BaseEntity
+public class PsychologistShortResponse
 {
+    public int Id { get; set; }
+
     public string Name { get; set; }
 
     public string Description { get; set; }
@@ -17,7 +16,5 @@ public class Psychologist : BaseEntity
 
     public int UserId { get; set; }
     
-    public virtual User User { get; set; }
-
     public bool IsActive { get; set; }
 }
