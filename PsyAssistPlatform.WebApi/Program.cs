@@ -17,6 +17,7 @@ public class Program
         }
         catch (Exception ex)
         {
+            // TODO: Заменить в будущем на Logger
             Console.WriteLine(ex);
         }
         
