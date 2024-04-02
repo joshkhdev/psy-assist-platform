@@ -1,6 +1,6 @@
 ﻿using PsyAssistPlatform.Domain;
 
-namespace PsyAssistPlatform.Persistence
+namespace PsyAssistPlatform.Persistence.Data
 {
     public static class FakeDataFactory
     {
@@ -24,7 +24,6 @@ namespace PsyAssistPlatform.Persistence
                     Email = "ivanov@goooooooogle.org",
                     IsBlocked = false,
                     Password = "qwerty",
-                    Role = Roles.First(),
                     RoleId = 1
                 }
             };
@@ -41,7 +40,6 @@ namespace PsyAssistPlatform.Persistence
                 RequestsInclude = "List 1",
                 RequestsExclude = "List 2",
                 TimeZone =  TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).ToString(),
-                User = Users.First(),
                 UserId = 1
             }
         };

@@ -11,7 +11,7 @@ public class PsychologistConfiguration : IEntityTypeConfiguration<Psychologist>
         builder.HasKey(psychologist => psychologist.Id);
         builder.HasIndex(psychologist => psychologist.Id);
         builder.Property(psychologist => psychologist.Name).HasMaxLength(50).IsRequired();
-        builder.Property(psychologist => psychologist.TimeZone).HasMaxLength(250).IsRequired();
+        builder.Property(psychologist => psychologist.TimeZone).HasMaxLength(50).IsRequired();
         builder.Property(psychologist => psychologist.Description).HasMaxLength(500).IsRequired();
         builder.Property(psychologist => psychologist.RequestsInclude).HasMaxLength(500).IsRequired();
         builder.Property(psychologist => psychologist.RequestsExclude).HasMaxLength(500).IsRequired();

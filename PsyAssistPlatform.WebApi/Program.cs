@@ -4,7 +4,7 @@ namespace PsyAssistPlatform.WebApi;
 
 public class Program
 {
-    public static async Task Main(string[] args)
+    public static void Main(string[] args)
     {
         var host = CreateHostBuilder(args).Build();
         
@@ -13,7 +13,7 @@ public class Program
         try
         {
             var context = serviceProvider.GetRequiredService<PsyAssistContext>();
-            await DbInitializer.InitializeAsync(context);
+            DbInitializer.Initialize(context);
         }
         catch (Exception ex)
         {

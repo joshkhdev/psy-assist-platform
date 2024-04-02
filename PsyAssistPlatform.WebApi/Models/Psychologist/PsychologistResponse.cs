@@ -1,6 +1,8 @@
-﻿namespace PsyAssistPlatform.WebApi.Models.Psychologist;
+﻿using PsyAssistPlatform.WebApi.Models.User;
 
-public class PsychologistResponse
+namespace PsyAssistPlatform.WebApi.Models.Psychologist;
+
+public record PsychologistResponse
 {
     public int Id { get; set; }
 
@@ -15,8 +17,8 @@ public class PsychologistResponse
     public string RequestsExclude { get; set; }
 
     public int UserId { get; set; }
-    
-    //public UserResponse User { get; set; }
+
+    public UserResponse User { get; set; }
 
     public bool IsActive { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PsyAssistPlatform.WebApi.Models.Psychologist;
 
-public class PsychologistShortResponse
+public record PsychologistShortResponse
 {
     public int Id { get; set; }
 

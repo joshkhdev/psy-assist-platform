@@ -1,48 +1,61 @@
 using PsyAssistPlatform.Domain;
+using PsyAssistPlatform.Persistence.Data;
 using PsyAssistPlatform.Persistence.Repositories;
 
 namespace PsyAssistPlatform.Persistence;
 
 public static class DbInitializer
 {
-    public static async Task InitializeAsync(PsyAssistContext context)
+    private const bool IsTest = false;
+
+    public static void Initialize(PsyAssistContext context)
     {
-        var isTest = false;
+        InitializeDatabase(context, IsTest);
 
-        await DeleteDatabaseAsync(context, isTest);
-        await context.Database.EnsureCreatedAsync();
-
-        await AddFakeDataAsync(context, isTest);
-        await TestFakeDataAsync(context, isTest);
+        AddFakeData(context, IsTest);
+        TestFakeData(context, IsTest);
     }
 
-    #region Fake Data Tests
-
-    public static async Task DeleteDatabaseAsync(PsyAssistContext context, bool isTest)
+    public static void InitializeDatabase(PsyAssistContext context, bool isTest)
     {
-        if (!isTest) return;
+        if (isTest)
+            context.Database.EnsureDeleted();
 
-        await context.Database.EnsureDeletedAsync();
+        context.Database.EnsureCreated();
     }
 
-    public static async Task AddFakeDataAsync(PsyAssistContext context, bool isTest)
+    public static void AddFakeData(PsyAssistContext context, bool isTest)
     {
-        if (!isTest) return;
+        if (!isTest) 
+            return;
 
-        await context.Psychologists.AddRangeAsync(FakeDataFactory.Psychologists);
-        await context.SaveChangesAsync();
+        context.Roles.AddRange(FakeDataFactory.Roles);
+        context.Users.AddRange(FakeDataFactory.Users);
+        context.Psychologists.AddRange(FakeDataFactory.Psychologists);
+
+        context.SaveChanges();
     }
 
-    public static async Task TestFakeDataAsync(PsyAssistContext context, bool isTest)
+    public static void TestFakeData(PsyAssistContext context, bool isTest)
     {
-        if (!isTest) return;
+        if (!isTest) 
+            return;
 
+        var rolesRepository = new EfCoreRepository<Role>(context);
+        var usersRepository = new EfCoreRepository<User>(context);
         var psychologistRepository = new EfCoreRepository<Psychologist>(context);
-        var testPsychologist = await psychologistRepository.GetAllAsync(CancellationToken.None);
 
-        return;
+        Task.Run(async () =>
+        {
+            Task[] tasks = 
+            [
+                rolesRepository.GetAllAsync(CancellationToken.None),
+                usersRepository.GetAllAsync(CancellationToken.None),
+                psychologistRepository.GetAllAsync(CancellationToken.None)
+            ];
+
+            await Task.WhenAll(tasks);
+        });
     }
-
-    #endregion
 
 }
