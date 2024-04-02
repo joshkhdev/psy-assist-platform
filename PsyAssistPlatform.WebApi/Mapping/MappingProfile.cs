@@ -10,12 +10,12 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        MapPsychologist();
-        MapUser();
-        MapRole();
+        CreatePsychologistMap();
+        CreateUserMap();
+        CreateRoleMap();
     }
 
-    private void MapPsychologist()
+    private void CreatePsychologistMap()
     {
         CreateMap<Psychologist, PsychologistResponse>();
         CreateMap<Psychologist, PsychologistShortResponse>();
@@ -23,12 +23,12 @@ public class MappingProfile : Profile
         CreateMap<UpdatePsychologistRequest, Psychologist>();
     }
 
-    private void MapUser()
+    private void CreateUserMap()
     {
         CreateMap<User, UserResponse>();
     }
 
-    private void MapRole()
+    private void CreateRoleMap()
     {
         CreateMap<Role, RoleResponse>();
     }
