@@ -69,7 +69,7 @@ public class PsychologistsController : ControllerBase
     /// <summary>
     /// Обновление данных о психологе
     /// </summary>
-    [HttpPut("{id}")]
+    [HttpPut]
     public async Task<IActionResult> UpdateAsync(
         int id,
         UpdatePsychologistRequest request,
@@ -96,7 +96,7 @@ public class PsychologistsController : ControllerBase
     /// <summary>
     /// Удаление данных о психологе
     /// </summary>
-    [HttpDelete("{id}")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteAsync(
         int id,
         CancellationToken cancellationToken)
