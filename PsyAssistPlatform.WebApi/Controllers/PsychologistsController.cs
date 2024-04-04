@@ -14,7 +14,8 @@ public class PsychologistsController : ControllerBase
     private readonly IRepository<User> _userRepository;
     private readonly IMapper _mapper;
 
-    public PsychologistsController(IRepository<Psychologist> psychologistRepository,
+    public PsychologistsController(
+        IRepository<Psychologist> psychologistRepository,
         IRepository<User> userRepository,
         IMapper mapper)
     {
