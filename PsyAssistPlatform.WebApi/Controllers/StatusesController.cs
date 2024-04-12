@@ -87,7 +87,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         /// Удалить статус
         /// </summary>
         [HttpDelete]
-        public async Task<IActionResult> DeleteStatus(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteStatusAsync(int id, CancellationToken cancellationToken)
         {
             var status = await _statusRepository.GetByIdAsync(id, cancellationToken);
 

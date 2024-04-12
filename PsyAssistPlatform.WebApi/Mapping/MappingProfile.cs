@@ -35,6 +35,9 @@ public class MappingProfile : Profile
     private void CreateRoleMap()
     {
         CreateMap<Role, RoleResponse>();
+        CreateMap<Role, RoleShortResponse>();
+        CreateMap<CreateRoleRequest, Role>();
+        CreateMap<UpdateRoleRequest, Role>();
     }
 
     private void CreateApproachMap()
