@@ -22,6 +22,7 @@ public static class DbInitializer
     public static void AddFakeData(PsyAssistContext context)
     {
         context.Roles.AddRange(FakeDataFactory.Roles);
+        context.Approaches.AddRange(FakeDataFactory.Approaches);
         context.Users.AddRange(FakeDataFactory.Users);
         context.Psychologists.AddRange(FakeDataFactory.Psychologists);
 

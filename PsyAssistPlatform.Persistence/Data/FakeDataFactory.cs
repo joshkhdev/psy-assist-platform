@@ -13,6 +13,21 @@ public static class FakeDataFactory
                 }
         };
 
+    public static IEnumerable<Approach> Approaches
+        => new List<Approach>()
+        {
+                new()
+                {
+                    Id = 1,
+                    Name = "Psychoanalysis"
+                },
+                new()
+                {
+                    Id = 2,
+                    Name = "hyponosis"
+                }
+        };
+
     public static IEnumerable<User> Users
         => new List<User>()
         {
