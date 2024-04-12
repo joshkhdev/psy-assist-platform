@@ -87,7 +87,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         /// Удалить подход
         /// </summary>
         [HttpDelete]
-        public async Task<IActionResult> DeleteApproach(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteApproachAsync(int id, CancellationToken cancellationToken)
         {
             var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
 

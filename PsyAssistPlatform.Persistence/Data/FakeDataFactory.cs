@@ -10,6 +10,16 @@ public static class FakeDataFactory
                 {
                     Id = 1,
                     Name = "Psychologist"
+                },
+                new()
+                {
+                    Id = 2,
+                    Name = "Сurator"
+                },
+                new()
+                {
+                    Id = 3,
+                    Name = "Admin"
                 }
         };
 
