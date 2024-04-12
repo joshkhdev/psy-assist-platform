@@ -1,3 +1,4 @@
+using System;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using PsyAssistPlatform.Application.Interfaces;
@@ -29,7 +30,7 @@ public class EfCoreRepository<T> : IRepository<T>
 
     public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbSet.FindAsync(id, cancellationToken);
+        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task AddAsync(T entity, CancellationToken cancellationToken)
