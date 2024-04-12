@@ -11,7 +11,7 @@ public class Questionnaire : BaseEntity
 
     public int Age { get; set; }
 
-    public TimeZoneInfo TimeZone { get; set; }
+    public string TimeZone { get; set; }
 
     public int ContactId { get; set; }
     

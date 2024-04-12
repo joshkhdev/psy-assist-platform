@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PsyAssistPlatform.Application.Interfaces;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
+using PsyAssistPlatform.WebApi.Mapping;
 
 namespace PsyAssistPlatform.WebApi;
 
@@ -16,6 +17,7 @@ public class Startup
     
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddAutoMapper(typeof(MappingProfile));
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
