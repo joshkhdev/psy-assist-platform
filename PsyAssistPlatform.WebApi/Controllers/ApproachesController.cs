@@ -52,7 +52,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         public async Task<IActionResult> CreateApproachAsync(CreateApproachRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
-                return BadRequest("No data to fill out");
+                return BadRequest("Request is empty");
 
             var approach = _mapper.Map<Approach>(request);
 
@@ -68,7 +68,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         public async Task<IActionResult> UpdateApproachAsync(int id, UpdateApproachRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
-                return BadRequest("No data to fill out");
+                return BadRequest("Request is empty");
 
             var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
 
