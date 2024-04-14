@@ -53,7 +53,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         public async Task<IActionResult> CreateRoleAsync(CreateRoleRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
-                return BadRequest("No data to fill out");
+                return BadRequest("Request is empty");
 
             var role = _mapper.Map<Role>(request);
 
@@ -69,7 +69,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         public async Task<IActionResult> UpdateRoleAsync(int id, UpdateRoleRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
-                return BadRequest("No data to fill out");
+                return BadRequest("Request is empty");
 
             var role = await _roleRepository.GetByIdAsync(id, cancellationToken);
 

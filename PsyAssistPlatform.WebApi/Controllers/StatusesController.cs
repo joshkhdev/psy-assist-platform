@@ -52,7 +52,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         public async Task<IActionResult> CreateStatusAsync(CreateStatusRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
-                return BadRequest("No data to fill out");
+                return BadRequest("Request is empty");
 
             var status = _mapper.Map<Status>(request);
 
@@ -68,7 +68,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         public async Task<IActionResult> UpdateStatusAsync(int id, UpdateStatusRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
-                return BadRequest("No data to fill out");
+                return BadRequest("Request is empty");
 
             var status = await _statusRepository.GetByIdAsync(id, cancellationToken);
 
