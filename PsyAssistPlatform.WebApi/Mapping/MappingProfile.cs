@@ -35,7 +35,6 @@ public class MappingProfile : Profile
     private void CreateRoleMap()
     {
         CreateMap<Role, RoleResponse>();
-        CreateMap<Role, RoleShortResponse>();
         CreateMap<CreateRoleRequest, Role>();
         CreateMap<UpdateRoleRequest, Role>();
     }
@@ -43,7 +42,6 @@ public class MappingProfile : Profile
     private void CreateApproachMap()
     {
         CreateMap<Approach, ApproachResponse>();
-        CreateMap<Approach, ApproachShortResponse>();
         CreateMap<CreateApproachRequest, Approach>();
         CreateMap<UpdateApproachRequest, Approach>();
     }
@@ -51,7 +49,6 @@ public class MappingProfile : Profile
     private void CreateStatusMap()
     {
         CreateMap<Status, StatusResponse>();
-        CreateMap<Status, StatusShortResponse>();
         CreateMap<CreateStatusRequest, Status>();
         CreateMap<UpdateStatusRequest, Status>();
     }

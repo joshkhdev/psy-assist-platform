@@ -34,7 +34,7 @@ public static class FakeDataFactory
                 new()
                 {
                     Id = 2,
-                    Name = "hyponosis"
+                    Name = "Hyponosis"
                 }
         };
 

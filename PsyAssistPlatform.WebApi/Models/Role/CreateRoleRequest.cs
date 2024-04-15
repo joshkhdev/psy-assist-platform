@@ -1,7 +1,6 @@
-﻿namespace PsyAssistPlatform.WebApi.Models.Role
+﻿namespace PsyAssistPlatform.WebApi.Models.Role;
+
+public record CreateRoleRequest
 {
-    public record CreateRoleRequest
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }
