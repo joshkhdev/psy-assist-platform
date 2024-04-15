@@ -24,6 +24,7 @@ public static class DbInitializer
         context.Roles.AddRange(FakeDataFactory.Roles);
         context.Users.AddRange(FakeDataFactory.Users);
         context.Psychologists.AddRange(FakeDataFactory.Psychologists);
+        context.Contacts.AddRange(FakeDataFactory.Contacts);
 
         context.SaveChanges();
     }
