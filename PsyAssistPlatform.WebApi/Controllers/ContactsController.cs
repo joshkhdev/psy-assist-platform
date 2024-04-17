@@ -25,23 +25,33 @@ public class ContactsController : ControllerBase
     /// Получение списка всех контактов
     /// </summary>
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
-        => Ok(_mapper.Map<IEnumerable<ContactResponse>>(
-            await _contactRepository.GetAllAsync(cancellationToken)));
+    public async Task<IActionResult> GetAllContactsAsync(CancellationToken cancellationToken)
+    {
+        var contacts = await _contactRepository.GetAllAsync(cancellationToken);
+
+        var contactResponses = _mapper.Map<IEnumerable<ContactResponse>>(contacts);
+
+        return Ok(contactResponses);
+    }
 
     /// <summary>
     /// Получение контакта по ID
     /// </summary>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetByIdAsync(int id, CancellationToken cancellationToken)
-        => Ok(_mapper.Map<ContactResponse>(
-            await _contactRepository.GetByIdAsync(id, cancellationToken)));
+    public async Task<IActionResult> GetContactByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
+
+        var contactResponse = _mapper.Map<ContactResponse>(contact);
+
+        return Ok(contactResponse);
+    }
 
     /// <summary>
     /// Создание нового контакта
     /// </summary>
     [HttpPost]
-    public async Task<IActionResult> AddAsync(
+    public async Task<IActionResult> AddContactAsync(
         CreateContactRequest request,
         CancellationToken cancellationToken)
     {
@@ -49,14 +59,14 @@ public class ContactsController : ControllerBase
 
         await _contactRepository.AddAsync(contact, cancellationToken);
 
-        return Ok(new { id = contact.Id });
+        return Ok();
     }
 
     /// <summary>
     /// Обновление данных в контакте
     /// </summary>
     [HttpPut]
-    public async Task<IActionResult> UpdateAsync(
+    public async Task<IActionResult> UpdateContactAsync(
         int id,
         UpdateContactRequest request,
         CancellationToken cancellationToken)
@@ -71,14 +81,14 @@ public class ContactsController : ControllerBase
 
         await _contactRepository.UpdateAsync(contactModel, cancellationToken);
 
-        return Ok(new { id = contact.Id });
+        return Ok();
     }
 
     /// <summary>
     /// Удаление контакта
     /// </summary>
     [HttpDelete]
-    public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteContactAsync(int id, CancellationToken cancellationToken)
     {
         var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
 

@@ -49,8 +49,8 @@ public static class FakeDataFactory
             new()
             {
                 Id = 1,
-                Telegram = "@ivanoff",
-                Email = "ivanov@gmail.com",
+                Telegram = "@ivanoff_fake",
+                Email = "ivanov@fakemail.com",
                 Phone = "+79991234567"
             }
         };
