@@ -88,6 +88,31 @@ public static class FakeDataFactory
             }
     };
 
+    public static IEnumerable<Contact> Contacts
+        => new List<Contact>()
+        {
+            new()
+            {
+                Id = 1,
+                Telegram = "@ivanoff_fake",
+                Email = "ivanov@fakemail.com",
+                Phone = "+79991234567"
+            },
+            new()
+            {
+                Id = 2,
+                Telegram = "@pertova_fake",
+                Email = "pertova@fakemail.com",
+                Phone = "+79991234568"
+            },new()
+            {
+                Id = 3,
+                Telegram = "@sidorovo_fake",
+                Email = "sidorovo@fakemail.com",
+                Phone = "+79991234569"
+            }
+    };
+
     public static IEnumerable<Questionnaire> Questionnaires
         => new List<Questionnaire>()
         {

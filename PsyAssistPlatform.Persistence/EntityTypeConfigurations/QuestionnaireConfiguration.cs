@@ -22,6 +22,10 @@ public class QuestionnaireConfiguration : IEntityTypeConfiguration<Questionnaire
         builder.Property(questionnaire => questionnaire.TherapyExperience).HasMaxLength(500).IsRequired();
         builder.Property(questionnaire => questionnaire.IsForPay).IsRequired();
         builder.Property(questionnaire => questionnaire.RegistrationDate).IsRequired();
-        builder.HasOne(questionnaire => questionnaire.Contact).WithOne().HasForeignKey<Contact>(fk => fk.Id);
+
+        builder.HasOne(questionnaire => questionnaire.Contact)
+            .WithOne(contact => contact.Questionnaire)
+            .HasForeignKey<Questionnaire>(questionnaire => questionnaire.ContactId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
