@@ -1,6 +1,6 @@
 ﻿namespace PsyAssistPlatform.WebApi.Models.Questionnaire;
 
-public class QuestionnaireShortResponse
+public record QuestionnaireShortResponse
 {
     public int Id { get; set; }
     public string Name { get; set; }

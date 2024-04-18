@@ -43,7 +43,7 @@ namespace PsyAssistPlatform.WebApi.Controllers
         ///Создание новой анкеты
         ///</summary>
         [HttpPost]
-        public async Task<IActionResult> AddQuestionnaireAsync(CreateQuestionnaireRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddQuestionnaireAsync(CreateOrUpdateQuestionnaireRequest request, CancellationToken cancellationToken)
         {
             var contact = new Contact
             {
@@ -59,6 +59,27 @@ namespace PsyAssistPlatform.WebApi.Controllers
 
             await _questionnaireRepository.AddAsync(questionnaire, cancellationToken);
             return Ok(questionnaire.Id);
+        }
+
+        ///<summary>
+        ///Обновление анкеты
+        ///</summary>   
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateQuestionnaireAsync(int id, CreateOrUpdateQuestionnaireRequest request, CancellationToken cancellationToken)
+        {
+            var questionnaire = await _questionnaireRepository.GetByIdAsync(id, cancellationToken);
+            if (questionnaire == null)
+                return NotFound();
+
+            var contact = await _contactRepository.GetByIdAsync(questionnaire.ContactId, cancellationToken);
+            contact.Telegram = request.ContactTelegram;
+            contact.Email = request.ContactEmail;
+            contact.Phone = request.ContactPhone;
+            await _contactRepository.UpdateAsync(contact, cancellationToken);
+
+            questionnaire = _mapper.Map(request, questionnaire);
+            await _questionnaireRepository.UpdateAsync(questionnaire, cancellationToken);
+            return Ok();
         }
 
         [HttpDelete("{id}")]

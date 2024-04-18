@@ -1,6 +1,6 @@
 ﻿namespace PsyAssistPlatform.WebApi.Models.Questionnaire;
 
-public class CreateQuestionnaireRequest
+public record CreateOrUpdateQuestionnaireRequest
 {
     public string Name { get; set; }
     public string Pronouns { get; set; }

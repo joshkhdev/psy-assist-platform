@@ -71,6 +71,6 @@ public class MappingProfile : Profile
     {
         CreateMap<Questionnaire, QuestionnaireResponse>();
         CreateMap<Questionnaire, QuestionnaireShortResponse>();
-        CreateMap<CreateQuestionnaireRequest, Questionnaire>();
+        CreateMap<CreateOrUpdateQuestionnaireRequest, Questionnaire>();
     }
 }
