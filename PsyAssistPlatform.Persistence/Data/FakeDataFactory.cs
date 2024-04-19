@@ -42,4 +42,16 @@ public static class FakeDataFactory
                 UserId = 1
             }
     };
+
+    public static IEnumerable<Contact> Contacts
+        => new List<Contact>()
+        {
+            new()
+            {
+                Id = 1,
+                Telegram = "@ivanoff_fake",
+                Email = "ivanov@fakemail.com",
+                Phone = "+79991234567"
+            }
+        };
 }
