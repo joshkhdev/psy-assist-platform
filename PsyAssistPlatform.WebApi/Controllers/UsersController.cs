@@ -61,9 +61,7 @@ public class UsersController : ControllerBase
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);
 
         if (user is null)
-        {
             return NotFound();
-        }
 
         var userResponse = _mapper.Map<UserResponse>(user);
 
@@ -76,9 +74,7 @@ public class UsersController : ControllerBase
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);
 
         if (user is null)
-        {
             return NotFound();
-        }
 
         var userModel = _mapper.Map<User>(updateRequest);
         userModel.Id = id;
@@ -94,9 +90,7 @@ public class UsersController : ControllerBase
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);
 
         if (user is null)
-        {
             return NotFound();
-        }
 
         user.IsBlocked = true;
 
