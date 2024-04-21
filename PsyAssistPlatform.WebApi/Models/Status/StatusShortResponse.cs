@@ -1,7 +1,6 @@
-﻿namespace PsyAssistPlatform.WebApi.Models.Status
+﻿namespace PsyAssistPlatform.WebApi.Models.Status;
+
+public record StatusShortResponse
 {
-    public record StatusShortResponse
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

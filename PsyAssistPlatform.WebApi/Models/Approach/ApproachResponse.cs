@@ -1,7 +1,6 @@
-﻿namespace PsyAssistPlatform.WebApi.Models.Approach
+﻿namespace PsyAssistPlatform.WebApi.Models.Approach;
+
+public record ApproachResponse
 {
-    public record ApproachResponse
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

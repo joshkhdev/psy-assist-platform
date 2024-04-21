@@ -4,95 +4,93 @@ using PsyAssistPlatform.Application.Interfaces;
 using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.WebApi.Models.Questionnaire;
 
-namespace PsyAssistPlatform.WebApi.Controllers
+namespace PsyAssistPlatform.WebApi.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class QuestionnaireController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class QuestionnaireController : ControllerBase
+    private readonly IRepository<Questionnaire> _questionnaireRepository;
+    private readonly IRepository<Contact> _contactRepository;
+    private readonly IMapper _mapper;
+
+    public QuestionnaireController(IRepository<Questionnaire> questionnaireRepository, IRepository<Contact> contactRepository, IMapper mapper)
     {
-        private readonly IRepository<Questionnaire> _questionnaireRepository;
-        private readonly IRepository<Contact> _contactRepository;
-        private readonly IMapper _mapper;
+        _questionnaireRepository = questionnaireRepository;
+        _contactRepository = contactRepository;
+        _mapper = mapper;
+    }
 
-        public QuestionnaireController(IRepository<Questionnaire> questionnaireRepository, IRepository<Contact> contactRepository, IMapper mapper)
+    ///<summary>
+    ///Получение списка всех анкет
+    ///</summary>
+    [HttpGet]
+    public async Task<IEnumerable<QuestionnaireShortResponse>> GetAllQuestionnairesAsync(CancellationToken cancellationToken)
+    {
+        return _mapper.Map<IEnumerable<QuestionnaireShortResponse>>(await _questionnaireRepository.GetAllAsync(cancellationToken));
+    }
+
+    ///<summary>
+    ///Получение анкеты по id
+    ///</summary>
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetQuestionnaireByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return Ok(_mapper.Map<QuestionnaireResponse>(await _questionnaireRepository.GetByIdAsync(id, cancellationToken)));
+    }
+
+    ///<summary>
+    ///Создание новой анкеты
+    ///</summary>
+    [HttpPost]
+    public async Task<IActionResult> AddQuestionnaireAsync(CreateOrUpdateQuestionnaireRequest request, CancellationToken cancellationToken)
+    {
+        var contact = new Contact
         {
-            _questionnaireRepository = questionnaireRepository;
-            _contactRepository = contactRepository;
-            _mapper = mapper;
-        }
+            Telegram = request.ContactTelegram,
+            Email = request.ContactEmail,
+            Phone = request.ContactPhone
+        };
 
-        ///<summary>
-        ///Получение списка всех анкет
-        ///</summary>
-        [HttpGet]
-        public async Task<IEnumerable<QuestionnaireShortResponse>> GetAllQuestionnaireAsync(CancellationToken cancellationToken)
-        {
-            return _mapper.Map<IEnumerable<QuestionnaireShortResponse>>(await _questionnaireRepository.GetAllAsync(cancellationToken));
-        }
+        await _contactRepository.AddAsync(contact, cancellationToken);
 
-        ///<summary>
-        ///Получение анкеты по id
-        ///</summary>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetQuestionnaireByIdAsync(int id, CancellationToken cancellationToken)
-        {
-            return Ok(_mapper.Map<QuestionnaireResponse>(await _questionnaireRepository.GetByIdAsync(id, cancellationToken)));
-        }
+        var questionnaire = _mapper.Map<Questionnaire>(request);
+        questionnaire.ContactId = contact.Id; // Устанавливаем ID контакта после его сохранения
 
-        ///<summary>
-        ///Создание новой анкеты
-        ///</summary>
-        [HttpPost]
-        public async Task<IActionResult> AddQuestionnaireAsync(CreateOrUpdateQuestionnaireRequest request, CancellationToken cancellationToken)
-        {
-            var contact = new Contact
-            {
-                Telegram = request.ContactTelegram,
-                Email = request.ContactEmail,
-                Phone = request.ContactPhone
-            };
+        await _questionnaireRepository.AddAsync(questionnaire, cancellationToken);
+        return Ok(questionnaire.Id);
+    }
 
-            await _contactRepository.AddAsync(contact, cancellationToken);
+    ///<summary>
+    ///Обновление анкеты
+    ///</summary>   
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateQuestionnaireAsync(int id, CreateOrUpdateQuestionnaireRequest request, CancellationToken cancellationToken)
+    {
+        var questionnaire = await _questionnaireRepository.GetByIdAsync(id, cancellationToken);
+        if (questionnaire == null)
+            return NotFound();
 
-            var questionnaire = _mapper.Map<Questionnaire>(request);
-            questionnaire.ContactId = contact.Id; // Устанавливаем ID контакта после его сохранения
+        var contact = await _contactRepository.GetByIdAsync(questionnaire.ContactId, cancellationToken);
+        contact.Telegram = request.ContactTelegram;
+        contact.Email = request.ContactEmail;
+        contact.Phone = request.ContactPhone;
+        await _contactRepository.UpdateAsync(contact, cancellationToken);
 
-            await _questionnaireRepository.AddAsync(questionnaire, cancellationToken);
-            return Ok(questionnaire.Id);
-        }
+        questionnaire = _mapper.Map(request, questionnaire);
+        await _questionnaireRepository.UpdateAsync(questionnaire, cancellationToken);
+        return Ok();
+    }
 
-        ///<summary>
-        ///Обновление анкеты
-        ///</summary>   
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateQuestionnaireAsync(int id, CreateOrUpdateQuestionnaireRequest request, CancellationToken cancellationToken)
-        {
-            var questionnaire = await _questionnaireRepository.GetByIdAsync(id, cancellationToken);
-            if (questionnaire == null)
-                return NotFound();
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteQuestionnaireAsync(int id, CancellationToken cancellationToken)
+    {
+        var questionnaire = await _questionnaireRepository.GetByIdAsync(id, cancellationToken);
+        if (questionnaire == null)
+            return NotFound();
 
-            var contact = await _contactRepository.GetByIdAsync(questionnaire.ContactId, cancellationToken);
-            contact.Telegram = request.ContactTelegram;
-            contact.Email = request.ContactEmail;
-            contact.Phone = request.ContactPhone;
-            await _contactRepository.UpdateAsync(contact, cancellationToken);
 
-            questionnaire = _mapper.Map(request, questionnaire);
-            await _questionnaireRepository.UpdateAsync(questionnaire, cancellationToken);
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuestionnaireAsync(int id, CancellationToken cancellationToken)
-        {
-            var questionnaire = await _questionnaireRepository.GetByIdAsync(id, cancellationToken);
-            if (questionnaire == null)
-                return NotFound();
-
-            await _contactRepository.DeleteAsync(questionnaire.Contact.Id, cancellationToken);
-
-            await _questionnaireRepository.DeleteAsync(id, cancellationToken);
-            return Ok();
-        }
+        await _questionnaireRepository.DeleteAsync(id, cancellationToken);
+        return Ok();
     }
 }

@@ -10,7 +10,7 @@ public class QuestionnaireConfiguration : IEntityTypeConfiguration<Questionnaire
     {
         builder.HasKey(questionnaire => questionnaire.Id);
         builder.HasIndex(questionnaire => questionnaire.Id);
-        builder.Property(questionnaire => questionnaire.Name).HasMaxLength(50).IsRequired();
+        builder.Property(questionnaire => questionnaire.Name).HasMaxLength(100).IsRequired();
         builder.Property(questionnaire => questionnaire.Pronouns).HasMaxLength(50).IsRequired();
         builder.Property(questionnaire => questionnaire.Age).IsRequired();
         builder.Property(questionnaire => questionnaire.TimeZone).HasMaxLength(50).IsRequired();
