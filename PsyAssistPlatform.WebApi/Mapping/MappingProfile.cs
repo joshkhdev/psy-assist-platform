@@ -3,6 +3,7 @@ using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.WebApi.Models.Approach;
 using PsyAssistPlatform.WebApi.Models.Contact;
 using PsyAssistPlatform.WebApi.Models.Psychologist;
+using PsyAssistPlatform.WebApi.Models.Questionnaire;
 using PsyAssistPlatform.WebApi.Models.Role;
 using PsyAssistPlatform.WebApi.Models.Status;
 using PsyAssistPlatform.WebApi.Models.User;
@@ -19,6 +20,7 @@ public class MappingProfile : Profile
         CreateApproachMap();
         CreateStatusMap();
         CreateContactMap();
+        CreateQuestionnaireMap();
     }
 
     private void CreatePsychologistMap()
@@ -62,5 +64,12 @@ public class MappingProfile : Profile
         CreateMap<Contact, ContactResponse>();
         CreateMap<CreateContactRequest, Contact>();
         CreateMap<UpdateContactRequest, Contact>();
+    }
+
+    private void CreateQuestionnaireMap()
+    {
+        CreateMap<Questionnaire, QuestionnaireResponse>();
+        CreateMap<Questionnaire, QuestionnaireShortResponse>();
+        CreateMap<CreateOrUpdateQuestionnaireRequest, Questionnaire>();
     }
 }

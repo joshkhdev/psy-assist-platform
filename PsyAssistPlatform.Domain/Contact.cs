@@ -10,5 +10,7 @@ public class Contact : BaseEntity
     public string? Email { get; set; }
 
     public string? Phone { get; set; }
+
+    public virtual Questionnaire? Questionnaire { get; set; }
 }
 

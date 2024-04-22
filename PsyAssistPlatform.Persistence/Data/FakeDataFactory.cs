@@ -97,6 +97,72 @@ public static class FakeDataFactory
                 Telegram = "@ivanoff_fake",
                 Email = "ivanov@fakemail.com",
                 Phone = "+79991234567"
+            },
+            new()
+            {
+                Id = 2,
+                Telegram = "@pertova_fake",
+                Email = "pertova@fakemail.com",
+                Phone = "+79991234568"
+            },new()
+            {
+                Id = 3,
+                Telegram = "@sidorovo_fake",
+                Email = "sidorovo@fakemail.com",
+                Phone = "+79991234569"
+            }
+    };
+
+    public static IEnumerable<Questionnaire> Questionnaires
+        => new List<Questionnaire>()
+        {
+            new Questionnaire()
+            {
+                Id = 1,
+                Name = "Questionnaire 1",
+                Pronouns = "He/Him",
+                Age = 25,
+                TimeZone = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).ToString(),
+                ContactId = 1,
+                NeuroDifferences = "No",
+                MentalSpecifics = "No",
+                PsyWishes = "No",
+                PsyRequest = "I want my therapist to be a woman",
+                TherapyExperience = "7 month",
+                IsForPay = false,
+                RegistrationDate = DateTime.UtcNow
+            },
+            new Questionnaire()
+            {
+                Id = 2,
+                Name = "Questionnaire 2",
+                Pronouns = "She/Her",
+                Age = 30,
+                TimeZone = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).ToString(),
+                ContactId = 2,
+                NeuroDifferences = "No",
+                MentalSpecifics = "No",
+                PsyWishes = "No",
+                PsyRequest = "No",
+                TherapyExperience = "One year",
+                IsForPay = true,
+                RegistrationDate = DateTime.UtcNow.AddDays(-1)
+            },
+            new Questionnaire()
+            {
+                Id = 3,
+                Name = "Questionnaire 3",
+                Pronouns = "They/Them",
+                Age = 35,
+                TimeZone = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).ToString(),
+                ContactId = 3,
+                NeuroDifferences = "No",
+                MentalSpecifics = "No",
+                PsyWishes = "No",
+                PsyRequest = "No",
+                TherapyExperience = "No",
+                IsForPay = false,
+                RegistrationDate = DateTime.UtcNow.AddDays(-10)
             }
         };
 }
