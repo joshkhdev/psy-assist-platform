@@ -64,32 +64,6 @@ public class MappingProfile : Profile
         CreateMap<Contact, ContactResponse>();
         CreateMap<CreateContactRequest, Contact>();
         CreateMap<UpdateContactRequest, Contact>();
-        CreateMap<Role, RoleShortResponse>();
-        CreateMap<CreateRoleRequest, Role>();
-        CreateMap<UpdateRoleRequest, Role>();
-    }
-
-    private void CreateApproachMap()
-    {
-        CreateMap<Approach, ApproachResponse>();
-        CreateMap<Approach, ApproachShortResponse>();
-        CreateMap<CreateApproachRequest, Approach>();
-        CreateMap<UpdateApproachRequest, Approach>();
-    }
-
-    private void CreateStatusMap()
-    {
-        CreateMap<Status, StatusResponse>();
-        CreateMap<Status, StatusShortResponse>();
-        CreateMap<CreateStatusRequest, Status>();
-        CreateMap<UpdateStatusRequest, Status>();
-    }
-
-    private void CreateContactMap()
-    {
-        CreateMap<Contact, ContactResponse>();
-        CreateMap<CreateContactRequest, Contact>();
-        CreateMap<UpdateContactRequest, Contact>();
     }
 
     private void CreateQuestionnaireMap()
