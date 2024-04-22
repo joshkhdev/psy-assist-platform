@@ -4,4 +4,3 @@ public record StatusResponse
 {
     public string Name { get; set; }
 }
-}

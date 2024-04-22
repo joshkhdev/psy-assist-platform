@@ -4,4 +4,3 @@ public record CreateRoleRequest
 {
     public string Name { get; set; }
 }
-}
