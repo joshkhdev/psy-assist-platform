@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Contact\" />
+    <Folder Include="Models\Approach\" />
     <Folder Include="Models\Questionnaire\" />
   </ItemGroup>
 
