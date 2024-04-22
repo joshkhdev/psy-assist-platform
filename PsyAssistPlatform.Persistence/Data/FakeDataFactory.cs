@@ -14,7 +14,47 @@ public static class FakeDataFactory
                 new()
                 {
                     Id = 2,
+                    Name = "Сurator"
+                },
+                new()
+                {
+                    Id = 3,
+                    Name = "Admin"
+                }
+        };
+
+    public static IEnumerable<Approach> Approaches
+        => new List<Approach>()
+        {
+                new()
+                {
+                    Id = 1,
+                    Name = "Psychoanalysis"
+                },
+                new()
+                {
+                    Id = 2,
                     Name = "Hyponosis"
+                }
+        };
+
+    public static IEnumerable<Status> Statuses
+        => new List<Status>()
+        {
+                new()
+                {
+                    Id = 1,
+                    Name = "New"
+                },
+                new()
+                {
+                    Id = 2,
+                    Name = "InProcessing"
+                },
+                new()
+                {
+                    Id = 3,
+                    Name = "Completed"
                 }
         };
 
