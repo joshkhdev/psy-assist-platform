@@ -28,6 +28,8 @@ public class MappingProfile : Profile
     private void CreateUserMap()
     {
         CreateMap<User, UserResponse>();
+        CreateMap<CreateUserRequest, User>();
+        CreateMap<UpdateUserRequest, User>();
     }
 
     private void CreateRoleMap()
