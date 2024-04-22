@@ -26,10 +26,10 @@ public class ApproachesController : ControllerBase
     /// Получить список подходов
     /// </summary>
     [HttpGet]
-    public async Task<IEnumerable<ApproachShortResponse>> GetApproachesAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<ApproachResponse>> GetApproachesAsync(CancellationToken cancellationToken)
     {
         var approaches = await _approachRepository.GetAllAsync(cancellationToken);
-        return _mapper.Map<IEnumerable<ApproachShortResponse>>(approaches);
+        return _mapper.Map<IEnumerable<ApproachResponse>>(approaches);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class ApproachesController : ControllerBase
 
         await _approachRepository.AddAsync(approach, cancellationToken);
 
-        return Ok(_mapper.Map<ApproachShortResponse>(approach));
+        return Ok(_mapper.Map<ApproachResponse>(approach));
     }
 
     /// <summary>
@@ -74,14 +74,14 @@ public class ApproachesController : ControllerBase
         var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
 
         if (approach == null)
-            return NotFound($"Approach {id} doesn't found");
+            return NotFound($"Approach {id} not found");
 
         var approachUpdate = _mapper.Map<Approach>(request);
         approachUpdate.Id = approach.Id;
 
         await _approachRepository.UpdateAsync(approachUpdate, cancellationToken);
 
-        return Ok(_mapper.Map<ApproachShortResponse>(approachUpdate));
+        return Ok(_mapper.Map<ApproachResponse>(approachUpdate));
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class ApproachesController : ControllerBase
         var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
 
         if (approach == null)
-            return NotFound($"Approach {id} doesn't found");
+            return NotFound($"Approach {id} not found");
 
         await _approachRepository.DeleteAsync(id, cancellationToken);
 

@@ -14,6 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Contact\" />
+    <Folder Include="Models\Approach\" />
+    <Folder Include="Models\Questionnaire\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PsyAssistPlatform.Application\PsyAssistPlatform.Application.csproj" />
     <ProjectReference Include="..\PsyAssistPlatform.Persistence\PsyAssistPlatform.Persistence.csproj" />
   </ItemGroup>

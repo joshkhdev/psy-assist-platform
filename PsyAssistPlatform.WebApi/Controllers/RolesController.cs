@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PsyAssistPlatform.Application.Interfaces;
 using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.WebApi.Models.Role;
+using PsyAssistPlatform.WebApi.Models.Status;
 
 namespace PsyAssistPlatform.WebApi.Controllers;
 
@@ -25,10 +26,10 @@ public class RolesController : ControllerBase
     /// Получить список ролей
     /// </summary>
     [HttpGet]
-    public async Task<IEnumerable<RoleShortResponse>> GetRolesAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<RoleResponse>> GetRolesAsync(CancellationToken cancellationToken)
     {
         var roles = await _roleRepository.GetAllAsync(cancellationToken);
-        return _mapper.Map<IEnumerable<RoleShortResponse>>(roles);
+        return _mapper.Map<IEnumerable<RoleResponse>>(roles);
     }
 
     /// <summary>
@@ -40,7 +41,7 @@ public class RolesController : ControllerBase
         var role = await _roleRepository.GetByIdAsync(id, cancellationToken);
 
         if (role == null)
-            return NotFound($"Role {id} doesn't found");
+            return NotFound($"Role {id} not found");
 
         return Ok(_mapper.Map<RoleResponse>(role));
     }
@@ -58,7 +59,7 @@ public class RolesController : ControllerBase
 
         await _roleRepository.AddAsync(role, cancellationToken);
 
-        return Ok(_mapper.Map<RoleShortResponse>(role));
+        return Ok(_mapper.Map<RoleResponse>(role));
     }
 
     /// <summary>
@@ -73,14 +74,14 @@ public class RolesController : ControllerBase
         var role = await _roleRepository.GetByIdAsync(id, cancellationToken);
 
         if (role == null)
-            return NotFound($"Role {id} doesn't found");
+            return NotFound($"Role {id} not found");
 
         var roleUpdate = _mapper.Map<Role>(request);
         roleUpdate.Id = role.Id;
 
         await _roleRepository.UpdateAsync(roleUpdate, cancellationToken);
 
-        return Ok(_mapper.Map<RoleShortResponse>(roleUpdate));
+        return Ok(_mapper.Map<RoleResponse>(roleUpdate));
     }
 
     /// <summary>
@@ -92,7 +93,7 @@ public class RolesController : ControllerBase
         var role = await _roleRepository.GetByIdAsync(id, cancellationToken);
 
         if (role == null)
-            return NotFound($"Role {id} doesn't found");
+            return NotFound($"Role {id} not found");
 
         await _roleRepository.DeleteAsync(id, cancellationToken);
 

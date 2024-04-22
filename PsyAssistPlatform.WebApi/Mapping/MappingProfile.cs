@@ -34,11 +34,36 @@ public class MappingProfile : Profile
     private void CreateUserMap()
     {
         CreateMap<User, UserResponse>();
+        CreateMap<CreateUserRequest, User>();
+        CreateMap<UpdateUserRequest, User>();
     }
 
     private void CreateRoleMap()
     {
         CreateMap<Role, RoleResponse>();
+        CreateMap<CreateRoleRequest, Role>();
+        CreateMap<UpdateRoleRequest, Role>();
+    }
+
+    private void CreateApproachMap()
+    {
+        CreateMap<Approach, ApproachResponse>();
+        CreateMap<CreateApproachRequest, Approach>();
+        CreateMap<UpdateApproachRequest, Approach>();
+    }
+
+    private void CreateStatusMap()
+    {
+        CreateMap<Status, StatusResponse>();
+        CreateMap<CreateStatusRequest, Status>();
+        CreateMap<UpdateStatusRequest, Status>();
+    }
+
+    private void CreateContactMap()
+    {
+        CreateMap<Contact, ContactResponse>();
+        CreateMap<CreateContactRequest, Contact>();
+        CreateMap<UpdateContactRequest, Contact>();
         CreateMap<Role, RoleShortResponse>();
         CreateMap<CreateRoleRequest, Role>();
         CreateMap<UpdateRoleRequest, Role>();

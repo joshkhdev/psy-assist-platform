@@ -25,10 +25,10 @@ public class StatusesController : ControllerBase
     /// Получить список статусов
     /// </summary>
     [HttpGet]
-    public async Task<IEnumerable<StatusShortResponse>> GetStatusesAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<StatusResponse>> GetStatusesAsync(CancellationToken cancellationToken)
     {
         var statuses = await _statusRepository.GetAllAsync(cancellationToken);
-        return _mapper.Map<IEnumerable<StatusShortResponse>>(statuses);
+        return _mapper.Map<IEnumerable<StatusResponse>>(statuses);
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class StatusesController : ControllerBase
         var status = await _statusRepository.GetByIdAsync(id, cancellationToken);
 
         if (status == null)
-            return NotFound($"Status {id} doesn't found");
+            return NotFound($"Status {id} not found");
 
         return Ok(_mapper.Map<StatusResponse>(status));
     }
@@ -58,7 +58,7 @@ public class StatusesController : ControllerBase
 
         await _statusRepository.AddAsync(status, cancellationToken);
 
-        return Ok(_mapper.Map<StatusShortResponse>(status));
+        return Ok(_mapper.Map<StatusResponse>(status));
     }
 
     /// <summary>
@@ -73,14 +73,14 @@ public class StatusesController : ControllerBase
         var status = await _statusRepository.GetByIdAsync(id, cancellationToken);
 
         if (status == null)
-            return NotFound($"Status {id} doesn't found");
+            return NotFound($"Status {id} not found");
 
         var statusUpdate = _mapper.Map<Status>(request);
         statusUpdate.Id = status.Id;
 
         await _statusRepository.UpdateAsync(statusUpdate, cancellationToken);
 
-        return Ok(_mapper.Map<StatusShortResponse>(statusUpdate));
+        return Ok(_mapper.Map<StatusResponse>(statusUpdate));
     }
 
     /// <summary>
@@ -92,10 +92,11 @@ public class StatusesController : ControllerBase
         var status = await _statusRepository.GetByIdAsync(id, cancellationToken);
 
         if (status == null)
-            return NotFound($"Status {id} doesn't found");
+            return NotFound($"Status {id} not found");
 
         await _statusRepository.DeleteAsync(id, cancellationToken);
 
         return Ok();
     }
 }
+

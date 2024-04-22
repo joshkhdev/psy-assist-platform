@@ -3,8 +3,7 @@ using PsyAssistPlatform.Domain;
 
 namespace PsyAssistPlatform.Application.Interfaces;
 
-public interface IRepository<T>
-    where T : BaseEntity
+public interface IRepository<T> where T : BaseEntity
 {
     Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
     

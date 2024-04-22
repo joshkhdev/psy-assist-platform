@@ -18,6 +18,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddAutoMapper(typeof(MappingProfile));
+        services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
