@@ -13,4 +13,3 @@ public class Contact : BaseEntity
 
     public virtual Questionnaire? Questionnaire { get; set; }
 }
-

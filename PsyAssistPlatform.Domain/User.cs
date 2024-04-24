@@ -17,4 +17,3 @@ public class User : BaseEntity
     
     public virtual Role Role { get; set; }
 }
-
