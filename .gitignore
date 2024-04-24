@@ -12,3 +12,7 @@ packages/
 *.DotSettings
 *.binlog
 *.iml
+*.db
+*.db-shm
+*.db-wal
+*.bin

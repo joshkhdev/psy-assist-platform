@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,11 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Models\Contact\" />
+    <Folder Include="Models\Approach\" />
+    <Folder Include="Models\Questionnaire\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PsyAssistPlatform.Application\PsyAssistPlatform.Application.csproj" />
+    <ProjectReference Include="..\PsyAssistPlatform.Persistence\PsyAssistPlatform.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

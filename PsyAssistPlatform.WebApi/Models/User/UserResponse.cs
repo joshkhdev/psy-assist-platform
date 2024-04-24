@@ -1,19 +1,18 @@
-﻿namespace PsyAssistPlatform.Domain;
+﻿using PsyAssistPlatform.WebApi.Models.Role;
 
-/// <summary>
-/// Пользователь
-/// </summary>
-public class User : BaseEntity
+namespace PsyAssistPlatform.WebApi.Models.User;
+
+public record UserResponse
 {
     public string Name { get; set; }
-    
+
     public string Email { get; set; }
-    
+
     public string Password { get; set; }
 
     public bool IsBlocked { get; set; }
-    
+
     public int RoleId { get; set; }
-    
-    public virtual Role Role { get; set; }
+
+    public RoleResponse Role { get; set; }
 }

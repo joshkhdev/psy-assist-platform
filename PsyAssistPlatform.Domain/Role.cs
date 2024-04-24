@@ -3,9 +3,7 @@
 /// <summary>
 /// Роль пользователя
 /// </summary>
-public sealed class Role
+public class Role : BaseEntity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 }

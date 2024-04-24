@@ -1,10 +1,11 @@
-﻿namespace PsyAssistPlatform.Domain;
+﻿using PsyAssistPlatform.WebApi.Models.User;
 
-/// <summary>
-/// Психолог
-/// </summary>
-public class Psychologist : BaseEntity
+namespace PsyAssistPlatform.WebApi.Models.Psychologist;
+
+public record PsychologistResponse
 {
+    public int Id { get; set; }
+
     public string Name { get; set; }
 
     public string Description { get; set; }
@@ -16,8 +17,8 @@ public class Psychologist : BaseEntity
     public string RequestsExclude { get; set; }
 
     public int UserId { get; set; }
-    
-    public virtual User User { get; set; }
+
+    public UserResponse User { get; set; }
 
     public bool IsActive { get; set; }
 }

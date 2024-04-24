@@ -3,14 +3,13 @@
 /// <summary>
 /// Контакт
 /// </summary>
-public sealed class Contact
+public class Contact : BaseEntity
 {
-    public int Id { get; set; }
-
     public string? Telegram { get; set; }
 
     public string? Email { get; set; }
 
     public string? Phone { get; set; }
-}
 
+    public virtual Questionnaire? Questionnaire { get; set; }
+}
