@@ -5,15 +5,19 @@
 /// </summary>
 public class User : BaseEntity
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
     
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
     
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
 
     public bool IsBlocked { get; set; }
     
     public int RoleId { get; set; }
     
-    public virtual Role Role { get; set; }
+    public virtual Role Role { get; set; } = null!;
+
+    public int? PsychologistProfileId { get; set; } = null;
+
+    public virtual PsychologistProfile? PsychologistProfile { get; set; } = null;
 }

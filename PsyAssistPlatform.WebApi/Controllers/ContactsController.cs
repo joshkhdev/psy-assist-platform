@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PsyAssistPlatform.Application.Interfaces;
-using PsyAssistPlatform.Domain;
+using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.WebApi.Models.Contact;
 
 namespace PsyAssistPlatform.WebApi.Controllers;
@@ -10,93 +9,45 @@ namespace PsyAssistPlatform.WebApi.Controllers;
 [Route("[controller]")]
 public class ContactsController : ControllerBase
 {
-    private readonly IRepository<Contact> _contactRepository;
+    private readonly IContactService _contactService;
     private readonly IMapper _mapper;
 
-    public ContactsController(
-        IRepository<Contact> contactRepository, 
-        IMapper mapper)
+    public ContactsController(IContactService contactService, IMapper mapper)
     {
-        _contactRepository = contactRepository;
+        _contactService = contactService;
         _mapper = mapper;
     }
 
     /// <summary>
-    /// Получение списка всех контактов
+    /// Получить список всех контактов
     /// </summary>
     [HttpGet]
-    public async Task<IActionResult> GetAllContactsAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<ContactResponse>> GetAllContactsAsync(CancellationToken cancellationToken)
     {
-        var contacts = await _contactRepository.GetAllAsync(cancellationToken);
-
-        var contactResponses = _mapper.Map<IEnumerable<ContactResponse>>(contacts);
-
-        return Ok(contactResponses);
+        var contacts = await _contactService.GetContactsAsync(cancellationToken);
+        return _mapper.Map<IEnumerable<ContactResponse>>(contacts);
     }
 
     /// <summary>
-    /// Получение контакта по ID
+    /// Получить контакт по Id
     /// </summary>
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetContactByIdAsync(int id, CancellationToken cancellationToken)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<ContactResponse>> GetContactByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
-
-        var contactResponse = _mapper.Map<ContactResponse>(contact);
-
-        return Ok(contactResponse);
+        var contact = await _contactService.GetContactByIdAsync(id, cancellationToken);
+        return _mapper.Map<ContactResponse>(contact);
     }
 
     /// <summary>
-    /// Создание нового контакта
+    /// Обновить данные контакта
     /// </summary>
-    [HttpPost]
-    public async Task<IActionResult> AddContactAsync(
-        CreateContactRequest request,
-        CancellationToken cancellationToken)
-    {
-        var contact = _mapper.Map<Contact>(request);
-
-        await _contactRepository.AddAsync(contact, cancellationToken);
-
-        return Ok();
-    }
-
-    /// <summary>
-    /// Обновление данных в контакте
-    /// </summary>
-    [HttpPut]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateContactAsync(
         int id,
         UpdateContactRequest request,
         CancellationToken cancellationToken)
     {
-        var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
-
-        if (contact is null)
-            return NotFound();
-
-        var contactModel = _mapper.Map<Contact>(request);
-        contactModel.Id = contact.Id;
-
-        await _contactRepository.UpdateAsync(contactModel, cancellationToken);
-
-        return Ok();
-    }
-
-    /// <summary>
-    /// Удаление контакта
-    /// </summary>
-    [HttpDelete]
-    public async Task<IActionResult> DeleteContactAsync(int id, CancellationToken cancellationToken)
-    {
-        var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
-
-        if (contact is null)
-            return NotFound();
-
-        await _contactRepository.DeleteAsync(id, cancellationToken);
-
-        return Ok();
+        var contact = await _contactService.UpdateContactAsync(id, request, cancellationToken);
+        return Ok(contact);
     }
 }

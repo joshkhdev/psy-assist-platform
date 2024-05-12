@@ -1,6 +1,8 @@
-﻿namespace PsyAssistPlatform.WebApi.Models.Contact;
+﻿using PsyAssistPlatform.Application.Interfaces.Dto.Contact;
 
-public record UpdateContactRequest
+namespace PsyAssistPlatform.WebApi.Models.Contact;
+
+public record UpdateContactRequest : IUpdateContact
 {
     public string? Telegram { get; set; }
 
