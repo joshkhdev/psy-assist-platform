@@ -54,8 +54,8 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUserAsync(CreateUserRequest createRequest, CancellationToken cancellationToken)
     {
-        var user = await _userService.CreateUserAsync(createRequest, cancellationToken);
-        return Ok(user);
+        await _userService.CreateUserAsync(createRequest, cancellationToken);
+        return Ok();
     }
 
     /// <summary>
@@ -64,8 +64,8 @@ public class UsersController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserRequest updateRequest, CancellationToken cancellationToken)
     {
-        var user = await _userService.UpdateUserAsync(id, updateRequest, cancellationToken);
-        return Ok(user);
+        await _userService.UpdateUserAsync(id, updateRequest, cancellationToken);
+        return Ok();
     }
 
     /// <summary>

@@ -38,7 +38,7 @@ public class ApproachesController : ControllerBase
     public async Task<ActionResult<ApproachResponse>> GetApproachByIdAsync(int id, CancellationToken cancellationToken)
     {
         var approach = await _approachService.GetApproachByIdAsync(id, cancellationToken);
-        return Ok(_mapper.Map<ApproachResponse>(approach));
+        return _mapper.Map<ApproachResponse>(approach);
     }
 
     /// <summary>
@@ -47,8 +47,8 @@ public class ApproachesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateApproachAsync(CreateApproachRequest request, CancellationToken cancellationToken)
     {
-        var approach = await _approachService.CreateApproachAsync(request, cancellationToken);
-        return Ok(approach);
+        await _approachService.CreateApproachAsync(request, cancellationToken);
+        return Ok();
     }
 
     /// <summary>
@@ -57,8 +57,8 @@ public class ApproachesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateApproachAsync(int id, UpdateApproachRequest request, CancellationToken cancellationToken)
     {
-        var approach = await _approachService.UpdateApproachAsync(id, request, cancellationToken);
-        return Ok(approach);
+        await _approachService.UpdateApproachAsync(id, request, cancellationToken);
+        return Ok();
     }
 
     /// <summary>

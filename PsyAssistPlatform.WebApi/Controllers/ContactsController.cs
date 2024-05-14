@@ -47,7 +47,7 @@ public class ContactsController : ControllerBase
         UpdateContactRequest request,
         CancellationToken cancellationToken)
     {
-        var contact = await _contactService.UpdateContactAsync(id, request, cancellationToken);
-        return Ok(contact);
+        await _contactService.UpdateContactAsync(id, request, cancellationToken);
+        return Ok();
     }
 }

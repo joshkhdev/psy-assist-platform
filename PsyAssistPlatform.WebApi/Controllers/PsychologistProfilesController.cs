@@ -60,10 +60,8 @@ public class PsychologistProfilesController : ControllerBase
         CreatePsychologistProfileRequest request,
         CancellationToken cancellationToken)
     {
-        var psychologistProfile =
-            await _psychologistProfileService.CreatePsychologistProfileAsync(request, cancellationToken);
-
-        return Ok(psychologistProfile);
+        await _psychologistProfileService.CreatePsychologistProfileAsync(request, cancellationToken);
+        return Ok();
     }
 
     /// <summary>
@@ -75,10 +73,8 @@ public class PsychologistProfilesController : ControllerBase
         UpdatePsychologistProfileRequest request,
         CancellationToken cancellationToken)
     {
-        var psychologistProfile =
-            await _psychologistProfileService.UpdatePsychologistProfileAsync(id, request, cancellationToken);
-
-        return Ok(psychologistProfile);
+        await _psychologistProfileService.UpdatePsychologistProfileAsync(id, request, cancellationToken);
+        return Ok();
     }
 
     /// <summary>
@@ -90,11 +86,8 @@ public class PsychologistProfilesController : ControllerBase
         bool isActive, 
         CancellationToken cancellationToken)
     {
-        var psychologistProfile =
-            await _psychologistProfileService.ChangeAvailabilityPsychologistProfileAsync(id, isActive, 
-                cancellationToken);
-
-        return Ok(psychologistProfile);
+        await _psychologistProfileService.ChangeAvailabilityPsychologistProfileAsync(id, isActive, cancellationToken);
+        return Ok();
     }
 
     /// <summary>
@@ -103,9 +96,7 @@ public class PsychologistProfilesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeactivatePsychologistProfileAsync(int id, CancellationToken cancellationToken)
     {
-        var psychologistProfile =
-            await _psychologistProfileService.DeactivatePsychologistProfileAsync(id, cancellationToken);
-            
-        return Ok(psychologistProfile);
+        await _psychologistProfileService.DeactivatePsychologistProfileAsync(id, cancellationToken);
+        return Ok();
     }
 }

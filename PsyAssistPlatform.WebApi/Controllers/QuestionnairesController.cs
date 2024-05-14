@@ -44,7 +44,7 @@ public class QuestionnairesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateQuestionnaireAsync(CreateQuestionnaireRequest request, CancellationToken cancellationToken)
     {
-        var questionnaire = await _questionnaireService.CreateQuestionnaireAsync(request, cancellationToken);
-        return Ok(questionnaire);
+        await _questionnaireService.CreateQuestionnaireAsync(request, cancellationToken);
+        return Ok();
     }
 }
