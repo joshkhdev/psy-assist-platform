@@ -13,6 +13,9 @@ public class PsychologistProfileService : IPsychologistProfileService
     private readonly IRepository<PsychologistProfile> _psychologistProfileRepository;
     private readonly IRepository<User> _useRepository;
     private readonly IMapper _applicationMapper;
+    private const string PsychologistProfileNotFoundMessage = "Psychologist profile with Id [{0}] not found";
+    private const string UserNotFoundMessage = "User with Id [{0}] not found";
+    private const string UserCannotBePsychologistMessage = "This user cannot be a psychologist";
 
     public PsychologistProfileService(
         IRepository<PsychologistProfile> psychologistProfileRepository, 
@@ -41,7 +44,7 @@ public class PsychologistProfileService : IPsychologistProfileService
     {
         var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
         if (psychologistProfile is null)
-            throw new NotFoundException($"Psychologist profile with Id [{id}] not found");
+            throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
 
         return _applicationMapper.Map<PsychologistProfileDto>(psychologistProfile);
     }
@@ -52,9 +55,9 @@ public class PsychologistProfileService : IPsychologistProfileService
     {
         var user = await _useRepository.GetByIdAsync(psychologistProfileData.UserId, cancellationToken);
         if (user is null)
-            throw new IncorrectDataException($"User with Id [{psychologistProfileData.UserId}] not found");
+            throw new IncorrectDataException(string.Format(UserNotFoundMessage, psychologistProfileData.UserId));
         if ((RoleType)user.RoleId == RoleType.Admin)
-            throw new IncorrectDataException("This user cannot be a psychologist");
+            throw new IncorrectDataException(UserCannotBePsychologistMessage);
         
         var psychologistProfile =
             _applicationMapper.Map<PsychologistProfile>(psychologistProfileData);
@@ -71,13 +74,13 @@ public class PsychologistProfileService : IPsychologistProfileService
     {
         var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
         if (psychologistProfile is null)
-            throw new NotFoundException($"Psychologist profile with Id [{id}] not found");
+            throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
         
         var user = await _useRepository.GetByIdAsync(psychologistProfileData.UserId, cancellationToken);
         if (user is null)
-            throw new IncorrectDataException($"User with Id [{psychologistProfileData.UserId}] not found");
+            throw new IncorrectDataException(string.Format(UserNotFoundMessage, psychologistProfileData.UserId));
         if ((RoleType)user.RoleId == RoleType.Admin)
-            throw new IncorrectDataException("This user cannot be a psychologist");
+            throw new IncorrectDataException(UserCannotBePsychologistMessage);
 
         var updatedPsychologistProfile =
             _applicationMapper.Map<PsychologistProfile>(psychologistProfileData);
@@ -94,7 +97,7 @@ public class PsychologistProfileService : IPsychologistProfileService
     {
         var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
         if (psychologistProfile is null)
-            throw new NotFoundException($"Psychologist profile with Id [{id}] not found");
+            throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
 
         psychologistProfile.IsActive = isActive;
         
@@ -106,7 +109,7 @@ public class PsychologistProfileService : IPsychologistProfileService
     {
         var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
         if (psychologistProfile is null)
-            throw new NotFoundException($"Psychologist profile with Id [{id}] not found");
+            throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
         
         psychologistProfile.IsActive = false;
 

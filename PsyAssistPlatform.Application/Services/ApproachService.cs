@@ -12,6 +12,7 @@ public class ApproachService : IApproachService
 {
     private readonly IRepository<Approach> _approachRepository;
     private readonly IMapper _applicationMapper;
+    private const string ApproachNotFoundMessage = "Approach with Id [{0}] not found";
     
     public ApproachService(IRepository<Approach> approachRepository, IMapper applicationMapper)
     {
@@ -29,7 +30,7 @@ public class ApproachService : IApproachService
     {
         var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
         if (approach is null)
-            throw new NotFoundException($"Approach with Id [{id}] not found");
+            throw new NotFoundException(string.Format(ApproachNotFoundMessage, id));
 
         return _applicationMapper.Map<ApproachDto>(approach);
     }
@@ -45,7 +46,7 @@ public class ApproachService : IApproachService
     {
         var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
         if (approach is null)
-            throw new NotFoundException($"Approach with Id [{id}] not found");
+            throw new NotFoundException(string.Format(ApproachNotFoundMessage, id));
 
         var updatedApproach = _applicationMapper.Map<Approach>(approachData);
         updatedApproach.Id = approach.Id;
@@ -57,7 +58,7 @@ public class ApproachService : IApproachService
     {
         var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
         if (approach is null)
-            throw new NotFoundException($"Approach with Id [{id}] not found");
+            throw new NotFoundException(string.Format(ApproachNotFoundMessage, id));
 
         await _approachRepository.DeleteAsync(id, cancellationToken);
     }

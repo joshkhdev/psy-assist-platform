@@ -12,6 +12,7 @@ public class ContactService : IContactService
 {
     private readonly IRepository<Contact> _contactRepository;
     private readonly IMapper _applicationMapper;
+    private const string ContactNotFoundMessage = "Contact with Id [{0}] not found";
 
     public ContactService(IRepository<Contact> contactRepository, IMapper applicationMapper)
     {
@@ -29,7 +30,7 @@ public class ContactService : IContactService
     {
         var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
         if (contact is null)
-            throw new NotFoundException($"Contact with Id [{id}] not found");
+            throw new NotFoundException(string.Format(ContactNotFoundMessage, id));
         
         return _applicationMapper.Map<ContactDto>(contact);
     }
@@ -39,7 +40,7 @@ public class ContactService : IContactService
         var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
         
         if (contact is null)
-            throw new NotFoundException($"Contact with Id [{id}] not found");
+            throw new NotFoundException(string.Format(ContactNotFoundMessage, id));
         
         if (string.IsNullOrEmpty(contactData.Email) 
             && string.IsNullOrEmpty(contactData.Phone) 

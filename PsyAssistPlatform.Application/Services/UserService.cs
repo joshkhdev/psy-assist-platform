@@ -13,6 +13,7 @@ public class UserService : IUserService
     private readonly IRepository<User> _userRepository;
     private readonly IRepository<PsychologistProfile> _psychologistProfileRepository;
     private readonly IMapper _applicationMapper;
+    private const string UserNotFoundMessage = "User with Id [{0}] not found";
 
     public UserService(
         IRepository<User> userRepository, 
@@ -40,7 +41,7 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);
         if (user is null)
-            throw new NotFoundException($"User with Id [{id}] not found");
+            throw new NotFoundException(string.Format(UserNotFoundMessage, id));
 
         return _applicationMapper.Map<UserDto>(user);
     }
@@ -56,7 +57,7 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);
         if (user is null)
-            throw new NotFoundException($"User with Id [{id}] not found");
+            throw new NotFoundException(string.Format(UserNotFoundMessage, id));
 
         if (user.RoleId != userData.RoleId && userData.RoleId == (int) RoleType.Admin)
         {
@@ -76,7 +77,7 @@ public class UserService : IUserService
     {
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);
         if (user is null)
-            throw new NotFoundException($"User with Id [{id}] not found");
+            throw new NotFoundException(string.Format(UserNotFoundMessage, id));
 
         user.IsBlocked = true;
         
