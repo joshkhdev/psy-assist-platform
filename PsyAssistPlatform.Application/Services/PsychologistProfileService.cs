@@ -11,7 +11,7 @@ namespace PsyAssistPlatform.Application.Services;
 public class PsychologistProfileService : IPsychologistProfileService
 {
     private readonly IRepository<PsychologistProfile> _psychologistProfileRepository;
-    private readonly IRepository<User> _useRepository;
+    private readonly IRepository<User> _userRepository;
     private readonly IMapper _applicationMapper;
     private const string PsychologistProfileNotFoundMessage = "Psychologist profile with Id [{0}] not found";
     private const string UserNotFoundMessage = "User with Id [{0}] not found";
@@ -19,11 +19,11 @@ public class PsychologistProfileService : IPsychologistProfileService
 
     public PsychologistProfileService(
         IRepository<PsychologistProfile> psychologistProfileRepository, 
-        IRepository<User> useRepository,
+        IRepository<User> userRepository,
         IMapper applicationMapper)
     {
         _psychologistProfileRepository = psychologistProfileRepository;
-        _useRepository = useRepository;
+        _userRepository = userRepository;
         _applicationMapper = applicationMapper;
     }
     
@@ -53,7 +53,7 @@ public class PsychologistProfileService : IPsychologistProfileService
         ICreatePsychologistProfile psychologistProfileData, 
         CancellationToken cancellationToken)
     {
-        var user = await _useRepository.GetByIdAsync(psychologistProfileData.UserId, cancellationToken);
+        var user = await _userRepository.GetByIdAsync(psychologistProfileData.UserId, cancellationToken);
         if (user is null)
             throw new IncorrectDataException(string.Format(UserNotFoundMessage, psychologistProfileData.UserId));
         if ((RoleType)user.RoleId == RoleType.Admin)
@@ -76,7 +76,7 @@ public class PsychologistProfileService : IPsychologistProfileService
         if (psychologistProfile is null)
             throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
         
-        var user = await _useRepository.GetByIdAsync(psychologistProfileData.UserId, cancellationToken);
+        var user = await _userRepository.GetByIdAsync(psychologistProfileData.UserId, cancellationToken);
         if (user is null)
             throw new IncorrectDataException(string.Format(UserNotFoundMessage, psychologistProfileData.UserId));
         if ((RoleType)user.RoleId == RoleType.Admin)
@@ -90,17 +90,14 @@ public class PsychologistProfileService : IPsychologistProfileService
             await _psychologistProfileRepository.UpdateAsync(updatedPsychologistProfile, cancellationToken));
     }
 
-    public async Task<IPsychologistProfile> ChangeAvailabilityPsychologistProfileAsync(
-        int id, 
-        bool isActive, 
-        CancellationToken cancellationToken)
+    public async Task<IPsychologistProfile> ActivatePsychologistProfileAsync(int id, CancellationToken cancellationToken)
     {
         var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
         if (psychologistProfile is null)
             throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
-
-        psychologistProfile.IsActive = isActive;
         
+        psychologistProfile.IsActive = true;
+
         return _applicationMapper.Map<PsychologistProfileDto>(
             await _psychologistProfileRepository.UpdateAsync(psychologistProfile, cancellationToken));
     }

@@ -41,9 +41,9 @@ public class QuestionnaireService : IQuestionnaireService
 
     public async Task<IQuestionnaire> CreateQuestionnaireAsync(ICreateQuestionnaire questionnaireData, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(questionnaireData.Email) 
-            && string.IsNullOrEmpty(questionnaireData.Phone) 
-            && string.IsNullOrEmpty(questionnaireData.Telegram))
+        if (string.IsNullOrWhiteSpace(questionnaireData.Email) 
+            && string.IsNullOrWhiteSpace(questionnaireData.Phone) 
+            && string.IsNullOrWhiteSpace(questionnaireData.Telegram))
             throw new IncorrectDataException("All contact details (email, phone, telegram) cannot be empty");
 
         var contactData = new Contact()

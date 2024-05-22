@@ -42,9 +42,9 @@ public class ContactService : IContactService
         if (contact is null)
             throw new NotFoundException(string.Format(ContactNotFoundMessage, id));
         
-        if (string.IsNullOrEmpty(contactData.Email) 
-            && string.IsNullOrEmpty(contactData.Phone) 
-            && string.IsNullOrEmpty(contactData.Telegram))
+        if (string.IsNullOrWhiteSpace(contactData.Email) 
+            && string.IsNullOrWhiteSpace(contactData.Phone) 
+            && string.IsNullOrWhiteSpace(contactData.Telegram))
             throw new IncorrectDataException("All contact details (email, phone, telegram) cannot be empty");
 
         var updatedContact = _applicationMapper.Map<Contact>(contactData);

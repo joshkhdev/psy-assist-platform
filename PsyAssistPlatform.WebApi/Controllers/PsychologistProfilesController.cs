@@ -78,15 +78,12 @@ public class PsychologistProfilesController : ControllerBase
     }
 
     /// <summary>
-    /// Изменить доступность профиля психолога
+    /// Активировать профиль психолога
     /// </summary>
-    [HttpPut("{id:int}/{isActive:bool}")]
-    public async Task<IActionResult> ChangeAvailabilityPsychologistProfileAsync(
-        int id, 
-        bool isActive, 
-        CancellationToken cancellationToken)
+    [HttpPut("{id:int}/activate")]
+    public async Task<IActionResult> ActivatePsychologistProfileAsync(int id, CancellationToken cancellationToken)
     {
-        await _psychologistProfileService.ChangeAvailabilityPsychologistProfileAsync(id, isActive, cancellationToken);
+        await _psychologistProfileService.ActivatePsychologistProfileAsync(id, cancellationToken);
         return Ok();
     }
 

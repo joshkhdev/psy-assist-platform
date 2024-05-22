@@ -19,10 +19,7 @@ public interface IPsychologistProfileService
         IUpdatePsychologistProfile psychologistProfileData, 
         CancellationToken cancellationToken);
     
-    Task<IPsychologistProfile> ChangeAvailabilityPsychologistProfileAsync(
-        int id, 
-        bool isActive, 
-        CancellationToken cancellationToken);
+    Task<IPsychologistProfile> ActivatePsychologistProfileAsync(int id, CancellationToken cancellationToken);
     
     Task<IPsychologistProfile> DeactivatePsychologistProfileAsync(int id, CancellationToken cancellationToken);
 }
