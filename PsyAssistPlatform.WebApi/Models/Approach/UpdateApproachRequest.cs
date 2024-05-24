@@ -1,6 +1,8 @@
-﻿namespace PsyAssistPlatform.WebApi.Models.Approach;
+﻿using PsyAssistPlatform.Application.Interfaces.Dto.Approach;
 
-public record UpdateApproachRequest
+namespace PsyAssistPlatform.WebApi.Models.Approach;
+
+public record UpdateApproachRequest : IUpdateApproach
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 }

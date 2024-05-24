@@ -1,9 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PsyAssistPlatform.Application.Interfaces;
-using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.WebApi.Models.User;
-using System.Linq.Expressions;
+using PsyAssistPlatform.Application.Interfaces.Service;
 
 namespace PsyAssistPlatform.WebApi.Controllers;
 
@@ -11,91 +9,72 @@ namespace PsyAssistPlatform.WebApi.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly IRepository<User> _userRepository;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
 
-    public UsersController(
-        IRepository<User> userRepository,
-        IMapper mapper)
+    public UsersController(IUserService userService, IMapper mapper)
     {
-        _userRepository = userRepository;
+        _userService = userService;
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Получить список действующих пользователей
+    /// </summary>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserResponse>>> GetActiveUsers(CancellationToken cancellationToken)
+    public async Task<IEnumerable<UserResponse>> GetActiveUsersAsync(CancellationToken cancellationToken)
     {
-        Expression<Func<User, bool>> getActiveUsers = (user) => !user.IsBlocked;
-
-        var activeUsers = await _userRepository.GetAsync(getActiveUsers, cancellationToken);
-
-        var activeUsersResponse = _mapper.Map<IEnumerable<UserResponse>>(activeUsers);
-
-        return Ok(activeUsersResponse);
+        var activeUsers = await _userService.GetActiveUsersAsync(cancellationToken);
+        return _mapper.Map<IEnumerable<UserResponse>>(activeUsers);
     }
 
+    /// <summary>
+    /// Получить список всех пользователей
+    /// </summary>
     [HttpGet("all")]
-    public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers(CancellationToken cancellationToken)
+    public async Task<IEnumerable<UserResponse>> GetAllUsersAsync(CancellationToken cancellationToken)
     {
-        var users = await _userRepository.GetAllAsync(cancellationToken);
-
-        var usersResponse = _mapper.Map<IEnumerable<UserResponse>>(users);
-
-        return Ok(usersResponse);
+        var activeUsers = await _userService.GetAllUsersAsync(cancellationToken);
+        return _mapper.Map<IEnumerable<UserResponse>>(activeUsers);
     }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateUser(CreateUserRequest createRequest, CancellationToken cancellationToken)
-    {
-        var user = _mapper.Map<User>(createRequest);
-        user.IsBlocked = false;
-
-        await _userRepository.AddAsync(user, cancellationToken);
-
-        return Ok();
-    }
-
+    
+    /// <summary>
+    /// Получить пользователя по Id
+    /// </summary>
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<UserResponse>> GetUser(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserResponse>> GetUserByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(id, cancellationToken);
-
-        if (user is null)
-            return NotFound();
-
-        var userResponse = _mapper.Map<UserResponse>(user);
-
-        return Ok(userResponse);
+        var user = await _userService.GetUserByIdAsync(id, cancellationToken);
+        return _mapper.Map<UserResponse>(user);
     }
-
-    [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateUser(int id, UpdateUserRequest updateRequest, CancellationToken cancellationToken)
+    
+    /// <summary>
+    /// Создать пользователя
+    /// </summary>
+    [HttpPost]
+    public async Task<IActionResult> CreateUserAsync(CreateUserRequest createRequest, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(id, cancellationToken);
-
-        if (user is null)
-            return NotFound();
-
-        var userModel = _mapper.Map<User>(updateRequest);
-        userModel.Id = id;
-
-        await _userRepository.UpdateAsync(userModel, cancellationToken);
-
+        await _userService.CreateUserAsync(createRequest, cancellationToken);
         return Ok();
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task<IActionResult> BlockUser(int id, CancellationToken cancellationToken)
+    /// <summary>
+    /// Обновить данные пользователя
+    /// </summary>
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserRequest updateRequest, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(id, cancellationToken);
+        await _userService.UpdateUserAsync(id, updateRequest, cancellationToken);
+        return Ok();
+    }
 
-        if (user is null)
-            return NotFound();
-
-        user.IsBlocked = true;
-
-        await _userRepository.UpdateAsync(user, cancellationToken);
-
+    /// <summary>
+    /// Заблокировать пользователя
+    /// </summary>
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> BlockUserAsync(int id, CancellationToken cancellationToken)
+    {
+        await _userService.BlockUserAsync(id, cancellationToken);
         return Ok();
     }
 }

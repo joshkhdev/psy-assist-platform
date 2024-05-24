@@ -1,8 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using PsyAssistPlatform.Application.Interfaces;
+using PsyAssistPlatform.Application.Interfaces.Repository;
+using PsyAssistPlatform.Application.Interfaces.Service;
+using PsyAssistPlatform.Application.Mapping;
+using PsyAssistPlatform.Application.Services;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
 using PsyAssistPlatform.WebApi.Mapping;
+using PsyAssistPlatform.WebApi.Middlewares;
 
 namespace PsyAssistPlatform.WebApi;
 
@@ -17,13 +21,20 @@ public class Startup
     
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(MappingProfile));
+        services.AddAutoMapper(typeof(ApplicationMappingProfile), typeof(PresentationMappingProfile));
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         
         services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
+        services.AddScoped<IApproachService, ApproachService>();
+        services.AddScoped<IContactService, ContactService>();
+        services.AddScoped<IPsychologistProfileService, PsychologistProfileService>();
+        services.AddScoped<IQuestionnaireService, QuestionnaireService>();
+        services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IStatusService, StatusService>();
+        services.AddScoped<IUserService, UserService>();
         
         services.AddDbContext<PsyAssistContext>(options =>
         {
@@ -35,6 +46,8 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
+        
         if (env.IsDevelopment())
         {
             app.UseSwagger();
@@ -42,6 +55,11 @@ public class Startup
         }
     
         app.UseHttpsRedirection();
+        
+        app.UseCors(policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
         app.UseRouting();
 
