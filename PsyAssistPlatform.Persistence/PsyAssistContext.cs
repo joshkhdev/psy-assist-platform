@@ -14,7 +14,7 @@ public class PsyAssistContext : DbContext
     
     public DbSet<Contact> Contacts { get; set; }
     
-    public DbSet<Psychologist> Psychologists { get; set; }
+    public DbSet<PsychologistProfile> Psychologists { get; set; }
     
     public DbSet<Questionnaire> Questionnaires { get; set; }
     
@@ -29,7 +29,7 @@ public class PsyAssistContext : DbContext
         builder
             .ApplyConfiguration(new ApproachConfiguration())
             .ApplyConfiguration(new ContactConfiguration())
-            .ApplyConfiguration(new PsychologistConfiguration())
+            .ApplyConfiguration(new PsychologistProfileConfiguration())
             .ApplyConfiguration(new QuestionnaireConfiguration())
             .ApplyConfiguration(new RoleConfiguration())
             .ApplyConfiguration(new StatusConfiguration())

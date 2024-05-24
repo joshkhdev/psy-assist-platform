@@ -1,12 +1,14 @@
-﻿namespace PsyAssistPlatform.WebApi.Models.User;
+﻿using PsyAssistPlatform.Application.Interfaces.Dto.User;
 
-public record CreateUserRequest
+namespace PsyAssistPlatform.WebApi.Models.User;
+
+public record CreateUserRequest : ICreateUser
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
-    public string Email { get; set; }
+    public required string Email { get; set; }
 
-    public string Password { get; set; }
+    public required string Password { get; set; }
 
-    public int RoleId { get; set; }
+    public required int RoleId { get; set; }
 }

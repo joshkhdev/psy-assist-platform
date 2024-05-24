@@ -5,5 +5,5 @@
 /// </summary>
 public class Status : BaseEntity
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 }

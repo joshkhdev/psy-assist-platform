@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PsyAssistPlatform.Application.Interfaces;
-using PsyAssistPlatform.Domain;
+using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.WebApi.Models.Approach;
 
 namespace PsyAssistPlatform.WebApi.Controllers;
@@ -13,12 +12,12 @@ namespace PsyAssistPlatform.WebApi.Controllers;
 [Route("[controller]")]
 public class ApproachesController : ControllerBase
 {
-    private readonly IRepository<Approach> _approachRepository;
+    private readonly IApproachService _approachService;
     private readonly IMapper _mapper;
     
-    public ApproachesController(IRepository<Approach> approachRepository, IMapper mapper)
+    public ApproachesController(IApproachService approachService, IMapper mapper)
     {
-        _approachRepository = approachRepository;
+        _approachService = approachService;
         _mapper = mapper;
     }
 
@@ -28,75 +27,47 @@ public class ApproachesController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<ApproachResponse>> GetApproachesAsync(CancellationToken cancellationToken)
     {
-        var approaches = await _approachRepository.GetAllAsync(cancellationToken);
+        var approaches = await _approachService.GetApproachesAsync(cancellationToken);
         return _mapper.Map<IEnumerable<ApproachResponse>>(approaches);
     }
 
     /// <summary>
-    /// Получить подход по id
+    /// Получить подход по Id
     /// </summary>
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ApproachResponse>> GetApproachAsync(int id, CancellationToken cancellationToken)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<ApproachResponse>> GetApproachByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
-
-        if (approach == null)
-            return NotFound($"Approach {id} not found");
-
-        return Ok(_mapper.Map<ApproachResponse>(approach));
+        var approach = await _approachService.GetApproachByIdAsync(id, cancellationToken);
+        return _mapper.Map<ApproachResponse>(approach);
     }
 
     /// <summary>
-    /// Добавить подход
+    /// Создать подход
     /// </summary>
     [HttpPost]
     public async Task<IActionResult> CreateApproachAsync(CreateApproachRequest request, CancellationToken cancellationToken)
     {
-        if (request == null)
-            return BadRequest("Request is empty");
-
-        var approach = _mapper.Map<Approach>(request);
-
-        await _approachRepository.AddAsync(approach, cancellationToken);
-
-        return Ok(_mapper.Map<ApproachResponse>(approach));
+        await _approachService.CreateApproachAsync(request, cancellationToken);
+        return Ok();
     }
 
     /// <summary>
     /// Обновить подход
     /// </summary>
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateApproachAsync(int id, UpdateApproachRequest request, CancellationToken cancellationToken)
     {
-        if (request == null)
-            return BadRequest("Request is empty");
-
-        var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
-
-        if (approach == null)
-            return NotFound($"Approach {id} not found");
-
-        var approachUpdate = _mapper.Map<Approach>(request);
-        approachUpdate.Id = approach.Id;
-
-        await _approachRepository.UpdateAsync(approachUpdate, cancellationToken);
-
-        return Ok(_mapper.Map<ApproachResponse>(approachUpdate));
+        await _approachService.UpdateApproachAsync(id, request, cancellationToken);
+        return Ok();
     }
 
     /// <summary>
     /// Удалить подход
     /// </summary>
-    [HttpDelete]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteApproachAsync(int id, CancellationToken cancellationToken)
     {
-        var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
-
-        if (approach == null)
-            return NotFound($"Approach {id} not found");
-
-        await _approachRepository.DeleteAsync(id, cancellationToken);
-
+        await _approachService.DeleteApproachAsync(id, cancellationToken);
         return Ok();
     }
 }

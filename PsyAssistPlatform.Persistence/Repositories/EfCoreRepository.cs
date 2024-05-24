@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using PsyAssistPlatform.Application.Interfaces;
+using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Domain;
 
 namespace PsyAssistPlatform.Persistence.Repositories;
@@ -33,16 +33,20 @@ public class EfCoreRepository<T> : IRepository<T>
         return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task AddAsync(T entity, CancellationToken cancellationToken)
+    public async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
     {
         _dbSet.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
+
+        return entity;
     }
 
-    public async Task UpdateAsync(T entity, CancellationToken cancellationToken)
+    public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken)
     {
         _dbSet.Update(entity);
         await _context.SaveChangesAsync(cancellationToken);
+        
+        return entity;
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
