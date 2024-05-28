@@ -1,6 +1,4 @@
-﻿using PsyAssistPlatform.Application.Interfaces.Dto.Contact;
-
-namespace PsyAssistPlatform.WebApi.Models.Contact;
+﻿namespace PsyAssistPlatform.WebApi.Models.Contact;
 
 public record ContactResponse
 {

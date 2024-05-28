@@ -1,6 +1,4 @@
-﻿using PsyAssistPlatform.WebApi.Models.User;
-
-namespace PsyAssistPlatform.WebApi.Models.PsychologistProfile;
+﻿namespace PsyAssistPlatform.WebApi.Models.PsychologistProfile;
 
 public record PsychologistProfileResponse
 {

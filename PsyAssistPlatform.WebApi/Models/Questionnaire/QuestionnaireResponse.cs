@@ -1,6 +1,4 @@
-﻿using PsyAssistPlatform.WebApi.Models.Contact;
-
-namespace PsyAssistPlatform.WebApi.Models.Questionnaire;
+﻿namespace PsyAssistPlatform.WebApi.Models.Questionnaire;
 
 public record QuestionnaireResponse
 {

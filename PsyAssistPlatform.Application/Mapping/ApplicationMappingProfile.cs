@@ -10,8 +10,6 @@ using PsyAssistPlatform.Application.Interfaces.Dto.Approach;
 using PsyAssistPlatform.Application.Interfaces.Dto.Contact;
 using PsyAssistPlatform.Application.Interfaces.Dto.PsychologistProfile;
 using PsyAssistPlatform.Application.Interfaces.Dto.Questionnaire;
-using PsyAssistPlatform.Application.Interfaces.Dto.Role;
-using PsyAssistPlatform.Application.Interfaces.Dto.Status;
 using PsyAssistPlatform.Application.Interfaces.Dto.User;
 using PsyAssistPlatform.Domain;
 
