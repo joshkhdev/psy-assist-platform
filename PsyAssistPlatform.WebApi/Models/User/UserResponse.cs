@@ -1,6 +1,4 @@
-﻿using PsyAssistPlatform.WebApi.Models.Role;
-
-namespace PsyAssistPlatform.WebApi.Models.User;
+﻿namespace PsyAssistPlatform.WebApi.Models.User;
 
 public record UserResponse
 {

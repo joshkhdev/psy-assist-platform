@@ -17,7 +17,7 @@ public class User : BaseEntity
     
     public virtual Role Role { get; set; } = null!;
 
-    public int? PsychologistProfileId { get; set; } = null;
+    public int? PsychologistProfileId { get; set; }
 
-    public virtual PsychologistProfile? PsychologistProfile { get; set; } = null;
+    public virtual PsychologistProfile? PsychologistProfile { get; set; }
 }
