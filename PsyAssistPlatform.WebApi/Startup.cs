@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
@@ -7,6 +9,11 @@ using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
 using PsyAssistPlatform.WebApi.Mapping;
 using PsyAssistPlatform.WebApi.Middlewares;
+using PsyAssistPlatform.WebApi.Models.Approach;
+using PsyAssistPlatform.WebApi.Models.Contact;
+using PsyAssistPlatform.WebApi.Models.PsychologistProfile;
+using PsyAssistPlatform.WebApi.Models.Questionnaire;
+using PsyAssistPlatform.WebApi.Models.User;
 
 namespace PsyAssistPlatform.WebApi;
 
@@ -26,6 +33,17 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidationClientsideAdapters();
+        services.AddValidatorsFromAssemblyContaining<CreateApproachRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateApproachRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateContactRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreatePsychologistProfileRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdatePsychologistProfileRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateQuestionnaireRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateUserRequestValidator>();
         
         services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
         services.AddScoped<IApproachService, ApproachService>();

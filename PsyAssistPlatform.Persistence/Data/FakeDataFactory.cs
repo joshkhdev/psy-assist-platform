@@ -86,8 +86,8 @@ public static class FakeDataFactory
             Description = "No Description",
             IsActive = true,
             Name = "Ivan Ivanov",
-            RequestsInclude = "List 1",
-            RequestsExclude = "List 2",
+            IncludingQueries = "List 1",
+            ExcludingQueries = "List 2",
             TimeZone =  TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).ToString(),
             UserId = 1
         }
@@ -131,7 +131,7 @@ public static class FakeDataFactory
             NeuroDifferences = "No",
             MentalSpecifics = "No",
             PsyWishes = "No",
-            PsyRequest = "I want my therapist to be a woman",
+            PsyQuery = "I want my therapist to be a woman",
             TherapyExperience = "7 months",
             IsForPay = false,
             RegistrationDate = DateTime.UtcNow
@@ -147,7 +147,7 @@ public static class FakeDataFactory
             NeuroDifferences = "No",
             MentalSpecifics = "No",
             PsyWishes = "No",
-            PsyRequest = "No",
+            PsyQuery = "No",
             TherapyExperience = "One year",
             IsForPay = true,
             RegistrationDate = DateTime.UtcNow.AddDays(-1)
@@ -163,7 +163,7 @@ public static class FakeDataFactory
             NeuroDifferences = "No",
             MentalSpecifics = "No",
             PsyWishes = "No",
-            PsyRequest = "No",
+            PsyQuery = "No",
             TherapyExperience = "No",
             IsForPay = false,
             RegistrationDate = DateTime.UtcNow.AddDays(-10)

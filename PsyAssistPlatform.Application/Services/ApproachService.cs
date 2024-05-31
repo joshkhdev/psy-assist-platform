@@ -13,6 +13,7 @@ public class ApproachService : IApproachService
     private readonly IRepository<Approach> _approachRepository;
     private readonly IMapper _applicationMapper;
     private const string ApproachNotFoundMessage = "Approach with Id [{0}] not found";
+    private const string NameValueCannotMessage = "Name value cannot be null or empty";
     
     public ApproachService(IRepository<Approach> approachRepository, IMapper applicationMapper)
     {
@@ -37,6 +38,9 @@ public class ApproachService : IApproachService
 
     public async Task<IApproach> CreateApproachAsync(ICreateApproach approachData, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(approachData.Name))
+            throw new IncorrectDataException(NameValueCannotMessage);
+        
         var approach = _applicationMapper.Map<Approach>(approachData);
 
         return _applicationMapper.Map<ApproachDto>(await _approachRepository.AddAsync(approach, cancellationToken));
@@ -47,6 +51,9 @@ public class ApproachService : IApproachService
         var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
         if (approach is null)
             throw new NotFoundException(string.Format(ApproachNotFoundMessage, id));
+        
+        if (string.IsNullOrWhiteSpace(approachData.Name))
+            throw new IncorrectDataException(NameValueCannotMessage);
 
         var updatedApproach = _applicationMapper.Map<Approach>(approachData);
         updatedApproach.Id = approach.Id;

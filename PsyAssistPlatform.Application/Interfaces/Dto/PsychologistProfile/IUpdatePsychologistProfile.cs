@@ -8,9 +8,9 @@ public interface IUpdatePsychologistProfile
 
     string TimeZone { get; set; }
 
-    string RequestsInclude { get; set; }
+    string IncludingQueries { get; set; }
 
-    string RequestsExclude { get; set; }
+    string ExcludingQueries { get; set; }
 
     int UserId { get; set; }
 

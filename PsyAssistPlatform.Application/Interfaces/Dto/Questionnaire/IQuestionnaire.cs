@@ -24,7 +24,7 @@ public interface IQuestionnaire
     
     string? PsyWishes { get; set; }
     
-    string PsyRequest { get; set; }
+    string PsyQuery { get; set; }
     
     string TherapyExperience { get; set; }
     

@@ -18,7 +18,7 @@ public class QuestionnaireConfiguration : IEntityTypeConfiguration<Questionnaire
         builder.Property(questionnaire => questionnaire.NeuroDifferences).HasMaxLength(500).IsRequired();
         builder.Property(questionnaire => questionnaire.MentalSpecifics).HasMaxLength(500).IsRequired();
         builder.Property(questionnaire => questionnaire.PsyWishes).HasMaxLength(500).IsRequired();
-        builder.Property(questionnaire => questionnaire.PsyRequest).HasMaxLength(500).IsRequired();
+        builder.Property(questionnaire => questionnaire.PsyQuery).HasMaxLength(500).IsRequired();
         builder.Property(questionnaire => questionnaire.TherapyExperience).HasMaxLength(500).IsRequired();
         builder.Property(questionnaire => questionnaire.IsForPay).IsRequired();
         builder.Property(questionnaire => questionnaire.RegistrationDate).IsRequired();

@@ -26,7 +26,7 @@ public record QuestionnaireDto : IQuestionnaire
     
     public string? PsyWishes { get; set; }
     
-    public required string PsyRequest { get; set; }
+    public required string PsyQuery { get; set; }
     
     public required string TherapyExperience { get; set; }
     

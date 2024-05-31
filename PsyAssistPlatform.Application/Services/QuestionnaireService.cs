@@ -41,10 +41,32 @@ public class QuestionnaireService : IQuestionnaireService
 
     public async Task<IQuestionnaire> CreateQuestionnaireAsync(ICreateQuestionnaire questionnaireData, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(questionnaireData.Email) 
-            && string.IsNullOrWhiteSpace(questionnaireData.Phone) 
+        if (string.IsNullOrWhiteSpace(questionnaireData.Email)
+            && string.IsNullOrWhiteSpace(questionnaireData.Phone)
             && string.IsNullOrWhiteSpace(questionnaireData.Telegram))
+        {
             throw new IncorrectDataException("All contact details (email, phone, telegram) cannot be empty");
+        }
+
+        if (string.IsNullOrWhiteSpace(questionnaireData.Name)
+            || string.IsNullOrWhiteSpace(questionnaireData.Pronouns)
+            || string.IsNullOrWhiteSpace(questionnaireData.TimeZone)
+            || string.IsNullOrWhiteSpace(questionnaireData.NeuroDifferences)
+            || string.IsNullOrWhiteSpace(questionnaireData.PsyQuery)
+            || string.IsNullOrWhiteSpace(questionnaireData.TherapyExperience))
+        {
+            throw new IncorrectDataException(
+                "Name, Pronouns, Time zone, Neuro differences, Psy query, Therapy experience values cannot be null or empty");
+        }
+        
+        if (!string.IsNullOrWhiteSpace(questionnaireData.Email))
+        {
+            if (!Validator.EmailValidator(questionnaireData.Email))
+                throw new IncorrectDataException("Incorrect email address format");
+        }
+
+        if (questionnaireData.Age < 16)
+            throw new IncorrectDataException("Age value must be at least 16");
 
         var contactData = new Contact()
         {
@@ -58,6 +80,7 @@ public class QuestionnaireService : IQuestionnaireService
         var createdQuestionnaire =
             _applicationMapper.Map<Questionnaire>(questionnaireData);
         createdQuestionnaire.ContactId = contact.Id;
+        createdQuestionnaire.RegistrationDate = DateTime.Now;
 
         return _applicationMapper.Map<QuestionnaireDto>(
             await _questionnaireRepository.AddAsync(createdQuestionnaire, cancellationToken));

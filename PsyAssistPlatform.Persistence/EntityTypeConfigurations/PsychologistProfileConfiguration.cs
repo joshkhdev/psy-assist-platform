@@ -13,8 +13,8 @@ public class PsychologistProfileConfiguration : IEntityTypeConfiguration<Psychol
         builder.Property(psychologistProfile => psychologistProfile.Name).HasMaxLength(50).IsRequired();
         builder.Property(psychologistProfile => psychologistProfile.TimeZone).HasMaxLength(50).IsRequired();
         builder.Property(psychologistProfile => psychologistProfile.Description).HasMaxLength(500).IsRequired();
-        builder.Property(psychologistProfile => psychologistProfile.RequestsInclude).HasMaxLength(500).IsRequired();
-        builder.Property(psychologistProfile => psychologistProfile.RequestsExclude).HasMaxLength(500).IsRequired();
+        builder.Property(psychologistProfile => psychologistProfile.IncludingQueries).HasMaxLength(500).IsRequired();
+        builder.Property(psychologistProfile => psychologistProfile.ExcludingQueries).HasMaxLength(500).IsRequired();
         builder.Property(psychologistProfile => psychologistProfile.IsActive).IsRequired();
 
         builder.HasOne(psychologistProfile => psychologistProfile.User)

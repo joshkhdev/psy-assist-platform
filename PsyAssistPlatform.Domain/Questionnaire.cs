@@ -23,7 +23,7 @@ public class Questionnaire : BaseEntity
 
     public string PsyWishes { get; set; } = null!;
 
-    public string PsyRequest { get; set; } = null!;
+    public string PsyQuery { get; set; } = null!;
 
     public string TherapyExperience { get; set; } = null!;
 
