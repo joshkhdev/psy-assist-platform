@@ -54,6 +54,12 @@ public class ContactService : IContactService
             if (!Validator.EmailValidator(contactData.Email))
                 throw new IncorrectDataException("Incorrect email address format");
         }
+        
+        if (!string.IsNullOrWhiteSpace(contactData.Phone))
+        {
+            if (!Validator.PhoneNumberValidator(contactData.Phone))
+                throw new IncorrectDataException("Incorrect phone number format");
+        }
 
         var updatedContact = _applicationMapper.Map<Contact>(contactData);
         updatedContact.Id = id;

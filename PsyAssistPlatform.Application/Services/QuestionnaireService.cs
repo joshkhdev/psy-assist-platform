@@ -65,6 +65,12 @@ public class QuestionnaireService : IQuestionnaireService
                 throw new IncorrectDataException("Incorrect email address format");
         }
 
+        if (!string.IsNullOrWhiteSpace(questionnaireData.Phone))
+        {
+            if (!Validator.PhoneNumberValidator(questionnaireData.Phone))
+                throw new IncorrectDataException("Incorrect phone number format");
+        }
+
         if (questionnaireData.Age < 16)
             throw new IncorrectDataException("Age value must be at least 16");
 
