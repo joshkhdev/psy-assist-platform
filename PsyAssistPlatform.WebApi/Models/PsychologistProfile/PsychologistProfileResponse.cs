@@ -10,9 +10,9 @@ public record PsychologistProfileResponse
 
     public string TimeZone { get; set; } = null!;
 
-    public string RequestsInclude { get; set; } = null!;
+    public string IncludingQueries { get; set; } = null!;
 
-    public string RequestsExclude { get; set; } = null!;
+    public string ExcludingQueries { get; set; } = null!;
 
     public int UserId { get; set; }
 

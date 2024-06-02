@@ -16,6 +16,8 @@ public class PsychologistProfileService : IPsychologistProfileService
     private const string PsychologistProfileNotFoundMessage = "Psychologist profile with Id [{0}] not found";
     private const string UserNotFoundMessage = "User with Id [{0}] not found";
     private const string UserCannotBePsychologistMessage = "This user cannot be a psychologist";
+    private const string ValuesCannotBeMessage =
+        "Name, Description, Time zone, Including queries, Excluding queries values cannot be null or empty"; 
 
     public PsychologistProfileService(
         IRepository<PsychologistProfile> psychologistProfileRepository, 
@@ -53,6 +55,15 @@ public class PsychologistProfileService : IPsychologistProfileService
         ICreatePsychologistProfile psychologistProfileData, 
         CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(psychologistProfileData.Name)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.Description)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.TimeZone)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.IncludingQueries)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.ExcludingQueries))
+        {
+            throw new IncorrectDataException(ValuesCannotBeMessage);
+        }
+        
         var user = await _userRepository.GetByIdAsync(psychologistProfileData.UserId, cancellationToken);
         if (user is null)
             throw new IncorrectDataException(string.Format(UserNotFoundMessage, psychologistProfileData.UserId));
@@ -72,6 +83,15 @@ public class PsychologistProfileService : IPsychologistProfileService
         IUpdatePsychologistProfile psychologistProfileData, 
         CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(psychologistProfileData.Name)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.Description)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.TimeZone)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.IncludingQueries)
+            || string.IsNullOrWhiteSpace(psychologistProfileData.ExcludingQueries))
+        {
+            throw new IncorrectDataException(ValuesCannotBeMessage);
+        }
+        
         var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
         if (psychologistProfile is null)
             throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));

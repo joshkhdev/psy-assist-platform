@@ -18,7 +18,7 @@ public record QuestionnaireResponse
     
     public string? PsyWishes { get; set; }
     
-    public string PsyRequest { get; set; } = null!;
+    public string PsyQuery { get; set; } = null!;
     
     public string TherapyExperience { get; set; } = null!;
     

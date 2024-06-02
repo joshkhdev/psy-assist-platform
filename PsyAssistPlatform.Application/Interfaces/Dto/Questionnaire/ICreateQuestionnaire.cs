@@ -22,11 +22,9 @@ public interface ICreateQuestionnaire
     
     string? PsyWishes { get; set; }
     
-    string PsyRequest { get; set; }
+    string PsyQuery { get; set; }
     
     string TherapyExperience { get; set; }
     
     bool IsForPay { get; set; }
-    
-    DateTime RegistrationDate { get; set; }
 }

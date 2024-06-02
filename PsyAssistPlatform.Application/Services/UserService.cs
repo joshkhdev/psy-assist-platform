@@ -14,6 +14,8 @@ public class UserService : IUserService
     private readonly IRepository<PsychologistProfile> _psychologistProfileRepository;
     private readonly IMapper _applicationMapper;
     private const string UserNotFoundMessage = "User with Id [{0}] not found";
+    private const string ValuesCannotBeMessage = "Name, Email, Password values cannot be null or empty";
+    private const string IncorrectEmailFormatMessage = "Incorrect email address format";
 
     public UserService(
         IRepository<User> userRepository, 
@@ -48,6 +50,16 @@ public class UserService : IUserService
 
     public async Task<IUser> CreateUserAsync(ICreateUser userData, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(userData.Name)
+            || string.IsNullOrWhiteSpace(userData.Email)
+            || string.IsNullOrWhiteSpace(userData.Password))
+        {
+            throw new IncorrectDataException(ValuesCannotBeMessage);
+        }
+        
+        if (!Validator.EmailValidator(userData.Email))
+            throw new IncorrectDataException(IncorrectEmailFormatMessage);
+        
         var user = _applicationMapper.Map<User>(userData);
 
         return _applicationMapper.Map<UserDto>(await _userRepository.AddAsync(user, cancellationToken));
@@ -55,6 +67,16 @@ public class UserService : IUserService
 
     public async Task<IUser> UpdateUserAsync(int id, IUpdateUser userData, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(userData.Name)
+            || string.IsNullOrWhiteSpace(userData.Email)
+            || string.IsNullOrWhiteSpace(userData.Password))
+        {
+            throw new IncorrectDataException(ValuesCannotBeMessage);
+        }
+        
+        if (!Validator.EmailValidator(userData.Email))
+            throw new IncorrectDataException(IncorrectEmailFormatMessage);
+        
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);
         if (user is null)
             throw new NotFoundException(string.Format(UserNotFoundMessage, id));

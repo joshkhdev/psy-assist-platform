@@ -24,11 +24,9 @@ public record CreateQuestionnaireRequest : ICreateQuestionnaire
     
     public string? PsyWishes { get; set; }
     
-    public required string PsyRequest { get; set; }
+    public required string PsyQuery { get; set; }
     
     public required string TherapyExperience { get; set; }
     
     public required bool IsForPay { get; set; }
-    
-    public required DateTime RegistrationDate { get; set; }
 }

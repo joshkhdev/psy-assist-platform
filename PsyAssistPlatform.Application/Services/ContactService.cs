@@ -41,11 +41,25 @@ public class ContactService : IContactService
         
         if (contact is null)
             throw new NotFoundException(string.Format(ContactNotFoundMessage, id));
-        
-        if (string.IsNullOrWhiteSpace(contactData.Email) 
-            && string.IsNullOrWhiteSpace(contactData.Phone) 
+
+        if (string.IsNullOrWhiteSpace(contactData.Email)
+            && string.IsNullOrWhiteSpace(contactData.Phone)
             && string.IsNullOrWhiteSpace(contactData.Telegram))
+        {
             throw new IncorrectDataException("All contact details (email, phone, telegram) cannot be empty");
+        }
+
+        if (!string.IsNullOrWhiteSpace(contactData.Email))
+        {
+            if (!Validator.EmailValidator(contactData.Email))
+                throw new IncorrectDataException("Incorrect email address format");
+        }
+        
+        if (!string.IsNullOrWhiteSpace(contactData.Phone))
+        {
+            if (!Validator.PhoneNumberValidator(contactData.Phone))
+                throw new IncorrectDataException("Incorrect phone number format");
+        }
 
         var updatedContact = _applicationMapper.Map<Contact>(contactData);
         updatedContact.Id = id;

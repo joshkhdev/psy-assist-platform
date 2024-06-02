@@ -12,9 +12,9 @@ public record PsychologistProfileDto : IPsychologistProfile
 
     public required string TimeZone { get; set; }
 
-    public required string RequestsInclude { get; set; }
+    public required string IncludingQueries { get; set; }
 
-    public required string RequestsExclude { get; set; }
+    public required string ExcludingQueries { get; set; }
 
     public required int UserId { get; set; }
 
