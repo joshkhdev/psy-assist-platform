@@ -5,6 +5,10 @@ namespace PsyAssistPlatform.WebApi.Models.Questionnaire;
 
 public class CreateQuestionnaireRequestValidator : AbstractValidator<CreateQuestionnaireRequest>
 {
+    private const string AllContactDetailsCannotBeMessage = "All contact details (email, phone, telegram) cannot be empty";
+    private const string IncorrectEmailAddressFormatMessage = "Incorrect email address format";
+    private const string IncorrectPhoneNumberFormatMessage = "Incorrect phone number format";
+    
     public CreateQuestionnaireRequestValidator()
     {
         RuleFor(request => request.Name)
@@ -23,25 +27,33 @@ public class CreateQuestionnaireRequestValidator : AbstractValidator<CreateQuest
             .NotEmpty()
             .WithMessage("Time zone value cannot be null or empty");
         RuleFor(request => request.Email)
+            .EmailAddress()
+            .WithMessage(IncorrectEmailAddressFormatMessage)
+            .When(request => !string.IsNullOrWhiteSpace(request.Email));
+        RuleFor(request => request.Email)
             .Cascade(CascadeMode.Stop)
             .NotNull()
             .NotEmpty()
-            .WithMessage("All contact details (email, phone, telegram) cannot be empty")
+            .WithMessage(AllContactDetailsCannotBeMessage)
             .EmailAddress()
-            .WithMessage("Incorrect email address format")
+            .WithMessage(IncorrectEmailAddressFormatMessage)
             .When(request => string.IsNullOrWhiteSpace(request.Phone) && string.IsNullOrWhiteSpace(request.Telegram));
+        RuleFor(request => request.Phone)
+            .Must(Validator.PhoneNumberValidator!)
+            .WithMessage(IncorrectPhoneNumberFormatMessage)
+            .When(request => !string.IsNullOrWhiteSpace(request.Phone));
         RuleFor(request => request.Phone)
             .Cascade(CascadeMode.Stop)
             .NotNull()
             .NotEmpty()
-            .WithMessage("All contact details (email, phone, telegram) cannot be empty")
+            .WithMessage(AllContactDetailsCannotBeMessage)
             .Must(Validator.PhoneNumberValidator!)
-            .WithMessage("Incorrect phone number format")
+            .WithMessage(IncorrectPhoneNumberFormatMessage)
             .When(request => string.IsNullOrWhiteSpace(request.Email) && string.IsNullOrWhiteSpace(request.Telegram));
         RuleFor(request => request.Telegram)
             .NotNull()
             .NotEmpty()
-            .WithMessage("All contact details (email, phone, telegram) cannot be empty")
+            .WithMessage(AllContactDetailsCannotBeMessage)
             .When(request => string.IsNullOrWhiteSpace(request.Email) && string.IsNullOrWhiteSpace(request.Phone));
         RuleFor(request => request.NeuroDifferences)
             .NotNull()
