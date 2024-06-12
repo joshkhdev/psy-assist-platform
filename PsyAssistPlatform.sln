@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.Persisten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsyAssistPlatform.WebApi", "PsyAssistPlatform.WebApi\PsyAssistPlatform.WebApi.csproj", "{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsyAssistPlatform.Tests", "PsyAssistPlatform.Tests\PsyAssistPlatform.Tests.csproj", "{D8342B05-95C4-40F9-9DED-B8C28A77DFC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8342B05-95C4-40F9-9DED-B8C28A77DFC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8342B05-95C4-40F9-9DED-B8C28A77DFC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8342B05-95C4-40F9-9DED-B8C28A77DFC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8342B05-95C4-40F9-9DED-B8C28A77DFC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +56,6 @@ Global
 		{C1F39FB5-0588-4267-8160-49C0F2456069} = {42BFE1E7-619D-4483-ADA1-3A3E41B8B587}
 		{90EC87CD-B148-4802-90D2-2572E389BD2A} = {0E4D0CCC-9E36-4D0E-A545-4C05FC78FF33}
 		{B94A02C0-02F1-448C-B7EA-17C7B0FFE819} = {15529B11-2379-4945-AA67-F132718D7F15}
+		{D8342B05-95C4-40F9-9DED-B8C28A77DFC3} = {1190B396-54F8-4822-8415-A62A83AF31B4}
 	EndGlobalSection
 EndGlobal

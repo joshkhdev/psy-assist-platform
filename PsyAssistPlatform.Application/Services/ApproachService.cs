@@ -14,6 +14,7 @@ public class ApproachService : IApproachService
     private readonly IMapper _applicationMapper;
     private const string ApproachNotFoundMessage = "Approach with Id [{0}] not found";
     private const string NameValueCannotMessage = "Name value cannot be null or empty";
+    private const string ApproachWithThisNameMessage = "Approach with name [{0}] already exists";
     
     public ApproachService(IRepository<Approach> approachRepository, IMapper applicationMapper)
     {
@@ -40,6 +41,11 @@ public class ApproachService : IApproachService
     {
         if (string.IsNullOrWhiteSpace(approachData.Name))
             throw new IncorrectDataException(NameValueCannotMessage);
+
+        var approaches = await _approachRepository.GetAsync(
+            approachEntity => approachEntity.Name.ToLower() == approachData.Name.ToLower(), cancellationToken);
+        if (approaches.Any())
+            throw new IncorrectDataException(string.Format(ApproachWithThisNameMessage, approachData.Name));
         
         var approach = _applicationMapper.Map<Approach>(approachData);
 
@@ -48,12 +54,18 @@ public class ApproachService : IApproachService
 
     public async Task<IApproach> UpdateApproachAsync(int id, IUpdateApproach approachData, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(approachData.Name))
+            throw new IncorrectDataException(NameValueCannotMessage);
+        
         var approach = await _approachRepository.GetByIdAsync(id, cancellationToken);
         if (approach is null)
             throw new NotFoundException(string.Format(ApproachNotFoundMessage, id));
-        
-        if (string.IsNullOrWhiteSpace(approachData.Name))
-            throw new IncorrectDataException(NameValueCannotMessage);
+
+        var approaches = await _approachRepository.GetAsync(
+            approachEntity => approachEntity.Name.ToLower() == approachData.Name.ToLower() && approachEntity.Id != id,
+            cancellationToken);
+        if (approaches.Any())
+            throw new IncorrectDataException(string.Format(ApproachWithThisNameMessage, approachData.Name));
 
         var updatedApproach = _applicationMapper.Map<Approach>(approachData);
         updatedApproach.Id = approach.Id;

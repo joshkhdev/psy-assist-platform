@@ -13,6 +13,4 @@ public interface IUpdatePsychologistProfile
     string ExcludingQueries { get; set; }
 
     int UserId { get; set; }
-
-    bool IsActive { get; set; }
 }

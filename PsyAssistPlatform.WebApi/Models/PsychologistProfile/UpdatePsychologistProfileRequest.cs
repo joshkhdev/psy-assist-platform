@@ -15,6 +15,4 @@ public record UpdatePsychologistProfileRequest : IUpdatePsychologistProfile
     public required string ExcludingQueries { get; set; }
 
     public required int UserId { get; set; }
-
-    public required bool IsActive { get; set; }
 }

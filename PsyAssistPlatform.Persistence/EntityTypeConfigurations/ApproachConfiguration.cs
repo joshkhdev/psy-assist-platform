@@ -10,6 +10,7 @@ public class ApproachConfiguration : IEntityTypeConfiguration<Approach>
     {
         builder.HasKey(approach => approach.Id);
         builder.HasIndex(approach => approach.Id);
+        builder.HasIndex(approach => approach.Name);
         builder.Property(approach => approach.Name).HasMaxLength(50).IsRequired();
     }
 }

@@ -1,7 +1,6 @@
 using AutoMapper;
 using PsyAssistPlatform.Application.Dto.Status;
 using PsyAssistPlatform.Application.Exceptions;
-using PsyAssistPlatform.Application.Interfaces.Dto.Role;
 using PsyAssistPlatform.Application.Interfaces.Dto.Status;
 using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;

@@ -14,5 +14,7 @@ public interface IUserService
     
     Task<IUser> UpdateUserAsync(int id, IUpdateUser userData, CancellationToken cancellationToken);
     
+    Task UnblockUserAsync(int id, CancellationToken cancellationToken);
+    
     Task BlockUserAsync(int id, CancellationToken cancellationToken);
 }

@@ -83,8 +83,7 @@ public class QuestionnaireService : IQuestionnaireService
 
         var contact = await _contactRepository.AddAsync(contactData, cancellationToken);
 
-        var createdQuestionnaire =
-            _applicationMapper.Map<Questionnaire>(questionnaireData);
+        var createdQuestionnaire = _applicationMapper.Map<Questionnaire>(questionnaireData);
         createdQuestionnaire.ContactId = contact.Id;
         createdQuestionnaire.RegistrationDate = DateTime.Now;
 
