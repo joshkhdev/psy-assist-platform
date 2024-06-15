@@ -71,7 +71,7 @@ public class UsersController : ControllerBase
     /// <summary>
     /// Разблокировать пользователя
     /// </summary>
-    [HttpPut("{id:int}/activate")]
+    [HttpPut("{id:int}/unblock")]
     public async Task<IActionResult> UnblockUserAsync(int id, CancellationToken cancellationToken)
     {
         await _userService.UnblockUserAsync(id, cancellationToken);
