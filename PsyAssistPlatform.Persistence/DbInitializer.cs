@@ -11,13 +11,13 @@ public static class DbInitializer
         AddFakeData(context);
     }
 
-    public static void InitializeDatabase(PsyAssistContext context)
+    private static void InitializeDatabase(PsyAssistContext context)
     {
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
     }
 
-    public static void AddFakeData(PsyAssistContext context)
+    private static void AddFakeData(PsyAssistContext context)
     {
         context.Roles.AddRange(FakeDataFactory.Roles);
         context.Approaches.AddRange(FakeDataFactory.Approaches);
