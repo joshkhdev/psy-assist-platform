@@ -1,4 +1,4 @@
-﻿using PsyAssistPlatform.Domain;
+using PsyAssistPlatform.Domain;
 
 namespace PsyAssistPlatform.Persistence.Data;
 
