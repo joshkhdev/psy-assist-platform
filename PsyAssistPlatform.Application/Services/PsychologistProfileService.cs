@@ -13,11 +13,16 @@ public class PsychologistProfileService : IPsychologistProfileService
     private readonly IRepository<PsychologistProfile> _psychologistProfileRepository;
     private readonly IRepository<User> _userRepository;
     private readonly IMapper _applicationMapper;
+    
     private const string PsychologistProfileNotFoundMessage = "Psychologist profile with Id [{0}] not found";
     private const string UserNotFoundMessage = "User with Id [{0}] not found";
     private const string UserCannotBePsychologistMessage = "This user cannot be a psychologist";
+    private const string UserCorrespondingToPsychologistProfileNotFoundMessage =
+        "User with Id [{0}] corresponding to psychologist profile with Id [{1}] not found";
     private const string ValuesCannotBeMessage =
-        "Name, Description, Time zone, Including queries, Excluding queries values cannot be null or empty"; 
+        "Name, Description, Time zone, Including queries, Excluding queries values cannot be null or empty";
+    private const string PsychologistProfileCannotBeAccessibleMessage =
+        "Psychologist profile with Id [{0}] cannot be accessible, because the user is blocked";
 
     public PsychologistProfileService(
         IRepository<PsychologistProfile> psychologistProfileRepository, 
@@ -80,7 +85,7 @@ public class PsychologistProfileService : IPsychologistProfileService
 
     public async Task<IPsychologistProfile> UpdatePsychologistProfileAsync(
         int id, 
-        IUpdatePsychologistProfile psychologistProfileData, 
+        IUpdatePsychologistProfile psychologistProfileData,
         CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(psychologistProfileData.Name)
@@ -105,6 +110,7 @@ public class PsychologistProfileService : IPsychologistProfileService
         var updatedPsychologistProfile =
             _applicationMapper.Map<PsychologistProfile>(psychologistProfileData);
         updatedPsychologistProfile.Id = id;
+        updatedPsychologistProfile.IsActive = psychologistProfile.IsActive;
 
         return _applicationMapper.Map<PsychologistProfileDto>(
             await _psychologistProfileRepository.UpdateAsync(updatedPsychologistProfile, cancellationToken));
@@ -116,6 +122,21 @@ public class PsychologistProfileService : IPsychologistProfileService
         if (psychologistProfile is null)
             throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
         
+        if (psychologistProfile.IsActive)
+            return _applicationMapper.Map<PsychologistProfileDto>(psychologistProfile);
+
+        var user = await _userRepository.GetByIdAsync(psychologistProfile.UserId, cancellationToken);
+        if (user is null)
+        {
+            throw new InternalPlatformErrorException(
+                string.Format(UserCorrespondingToPsychologistProfileNotFoundMessage, psychologistProfile.UserId, id));
+        }
+
+        if (user.IsBlocked)
+        {
+            throw new BusinessLogicException(string.Format(PsychologistProfileCannotBeAccessibleMessage, id));
+        }
+
         psychologistProfile.IsActive = true;
 
         return _applicationMapper.Map<PsychologistProfileDto>(
@@ -127,6 +148,9 @@ public class PsychologistProfileService : IPsychologistProfileService
         var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
         if (psychologistProfile is null)
             throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
+        
+        if (psychologistProfile.IsActive == false)
+            return _applicationMapper.Map<PsychologistProfileDto>(psychologistProfile);
         
         psychologistProfile.IsActive = false;
 

@@ -24,7 +24,7 @@ public class QuestionnaireConfiguration : IEntityTypeConfiguration<Questionnaire
         builder.Property(questionnaire => questionnaire.RegistrationDate).IsRequired();
 
         builder.HasOne(questionnaire => questionnaire.Contact)
-            .WithOne(contact => contact.Questionnaire)
+            .WithOne()
             .HasForeignKey<Questionnaire>(questionnaire => questionnaire.ContactId)
             .OnDelete(DeleteBehavior.Cascade);
     }

@@ -38,7 +38,6 @@ public class ContactService : IContactService
     public async Task<IContact> UpdateContactAsync(int id, IUpdateContact contactData, CancellationToken cancellationToken)
     {
         var contact = await _contactRepository.GetByIdAsync(id, cancellationToken);
-        
         if (contact is null)
             throw new NotFoundException(string.Format(ContactNotFoundMessage, id));
 

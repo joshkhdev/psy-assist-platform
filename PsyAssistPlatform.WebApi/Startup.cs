@@ -56,7 +56,7 @@ public class Startup
         
         services.AddDbContext<PsyAssistContext>(options =>
         {
-            options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             options.UseLazyLoadingProxies();
             options.EnableSensitiveDataLogging();
         });

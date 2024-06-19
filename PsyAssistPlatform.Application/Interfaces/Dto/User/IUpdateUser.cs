@@ -8,7 +8,5 @@ public interface IUpdateUser
 
     string Password { get; set; }
 
-    bool IsBlocked { get; set; }
-
     int RoleId { get; set; }
 }

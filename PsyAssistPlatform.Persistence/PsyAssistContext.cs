@@ -24,9 +24,9 @@ public class PsyAssistContext : DbContext
     
     public DbSet<User> Users { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder
+        modelBuilder
             .ApplyConfiguration(new ApproachConfiguration())
             .ApplyConfiguration(new ContactConfiguration())
             .ApplyConfiguration(new PsychologistProfileConfiguration())
@@ -35,6 +35,9 @@ public class PsyAssistContext : DbContext
             .ApplyConfiguration(new StatusConfiguration())
             .ApplyConfiguration(new UserConfiguration());
         
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
     }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseCamelCaseNamingConvention();
 }

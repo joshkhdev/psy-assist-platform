@@ -10,7 +10,5 @@ public record UpdateUserRequest : IUpdateUser
 
     public required string Password { get; set; }
 
-    public required bool IsBlocked { get; set; }
-
     public required int RoleId { get; set; }
 }

@@ -16,9 +16,9 @@ public class PsychologistProfileConfiguration : IEntityTypeConfiguration<Psychol
         builder.Property(psychologistProfile => psychologistProfile.IncludingQueries).HasMaxLength(500).IsRequired();
         builder.Property(psychologistProfile => psychologistProfile.ExcludingQueries).HasMaxLength(500).IsRequired();
         builder.Property(psychologistProfile => psychologistProfile.IsActive).IsRequired();
-
+        
         builder.HasOne(psychologistProfile => psychologistProfile.User)
-            .WithOne(user => user.PsychologistProfile)
+            .WithOne()
             .HasForeignKey<PsychologistProfile>(psychologistProfile => psychologistProfile.UserId)
             .OnDelete(DeleteBehavior.ClientSetNull);
     }

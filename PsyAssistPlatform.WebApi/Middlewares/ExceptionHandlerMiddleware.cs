@@ -1,4 +1,3 @@
-using System.Text.Json;
 using PsyAssistPlatform.Application.Exceptions;
 
 namespace PsyAssistPlatform.WebApi.Middlewares;
@@ -32,7 +31,21 @@ public class ExceptionHandlerMiddleware
             
             await context.Response.WriteAsync(ex.Message);
         }
-        catch (Exception ex)
+        catch (BusinessLogicException ex)
+        {
+            context.Response.StatusCode = 422;
+            context.Response.ContentType = "text/plain";
+            
+            await context.Response.WriteAsync(ex.Message);
+        }
+        catch (InternalPlatformErrorException ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";
+            
+            await context.Response.WriteAsync(ex.Message);
+        }
+        catch (Exception)
         {
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";
