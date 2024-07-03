@@ -42,6 +42,9 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
         questionnaire.Pronouns.Should().Be(questionnaireData.Pronouns);
         questionnaire.Age.Should().Be(questionnaireData.Age);
         questionnaire.TimeZone.Should().Be(questionnaireData.TimeZone);
+        questionnaire.Telegram.Should().Be(questionnaireData.Contact.Telegram);
+        questionnaire.Email.Should().Be(questionnaireData.Contact.Email);
+        questionnaire.Phone.Should().Be(questionnaireData.Contact.Phone);
         questionnaire.NeuroDifferences.Should().Be(questionnaireData.NeuroDifferences);
         questionnaire.MentalSpecifics.Should().Be(questionnaireData.MentalSpecifics);
         questionnaire.PsyWishes.Should().Be(questionnaireData.PsyWishes);
@@ -95,6 +98,9 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
         questionnaire.Pronouns.Should().Be(createQuestionnaireRequest.Pronouns);
         questionnaire.Age.Should().Be(createQuestionnaireRequest.Age);
         questionnaire.TimeZone.Should().Be(createQuestionnaireRequest.TimeZone);
+        questionnaire.Telegram.Should().Be(createQuestionnaireRequest.Telegram);
+        questionnaire.Email.Should().Be(createQuestionnaireRequest.Email);
+        questionnaire.Phone.Should().Be(createQuestionnaireRequest.Phone);
         questionnaire.NeuroDifferences.Should().Be(createQuestionnaireRequest.NeuroDifferences);
         questionnaire.MentalSpecifics.Should().Be(createQuestionnaireRequest.MentalSpecifics);
         questionnaire.PsyWishes.Should().Be(createQuestionnaireRequest.PsyWishes);
@@ -295,6 +301,7 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
         Age = 25,
         TimeZone = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).ToString(),
         ContactId = 1,
+        Contact = GetJohnDoeContact(),
         NeuroDifferences = "No",
         MentalSpecifics = "No",
         PsyWishes = "No",
@@ -312,6 +319,7 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
         Age = 30,
         TimeZone = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).ToString(),
         ContactId = 2,
+        Contact = GetJaneDoeContact(),
         NeuroDifferences = "No",
         MentalSpecifics = "No",
         PsyWishes = "No",
@@ -335,6 +343,14 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
         PsyQuery = "No",
         TherapyExperience = "One year",
         IsForPay = true
+    };
+    
+    private static Contact GetJohnDoeContact() => new()
+    {
+        Id = 1,
+        Telegram = "@johndoe_fake",
+        Email = "john.doe@fakemail.com",
+        Phone = "+79991234567"
     };
     
     private static Contact GetJaneDoeContact() => new()
