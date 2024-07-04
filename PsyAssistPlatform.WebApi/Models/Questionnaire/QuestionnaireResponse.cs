@@ -12,6 +12,12 @@ public record QuestionnaireResponse
     
     public string TimeZone { get; set; } = null!;
     
+    public string? Telegram { get; set; }
+
+    public string? Email { get; set; }
+
+    public string? Phone { get; set; }
+    
     public string NeuroDifferences { get; set; } = null!;
     
     public string? MentalSpecifics { get; set; }
