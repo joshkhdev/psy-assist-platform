@@ -50,7 +50,10 @@ public class ApplicationMappingProfile : Profile
     
     private void CreateQuestionnaireMap()
     {
-        CreateMap<Questionnaire, QuestionnaireDto>();
+        CreateMap<Questionnaire, QuestionnaireDto>()
+            .ForMember(destination => destination.Telegram, opt => opt.MapFrom(src => src.Contact.Telegram))
+            .ForMember(destination => destination.Email, opt => opt.MapFrom(src => src.Contact.Email))
+            .ForMember(destination => destination.Phone, opt => opt.MapFrom(src => src.Contact.Phone));
         CreateMap<ICreateQuestionnaire, Questionnaire>();
     }
     
