@@ -1,7 +1,6 @@
-﻿namespace PsyAssistPlatform.WebApi.Contracts
+﻿namespace PsyAssistPlatform.WebApi.Contracts;
+
+public interface ICurrentUserService
 {
-    public interface ICurrentUserService
-    {
-        Guid UserId { get; }
-    }
+    Guid UserId { get; }
 }

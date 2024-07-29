@@ -16,14 +16,14 @@ public class LoggingHandlerMiddleware
     {
         var userId = Guid.TryParse(context.User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : Guid.Empty;
 
-        var requestBody = await ReadRequestBody(context);
+        var requestBody = await ReadRequestBodyAsync(context);
 
         Log.Information("REQUEST: UserId: {@UserId} | RequestMethod: {@RequestMethod} | RequestPath: {@RequestPath} | RequestBody: {@RequestBody}", userId, context.Request.Method, context.Request.Path, requestBody);
 
         await _next(context);
     }
 
-    private async Task<string> ReadRequestBody(HttpContext context)
+    private async Task<string> ReadRequestBodyAsync(HttpContext context)
     {
         context.Request.EnableBuffering();
         var memoryStream = new MemoryStream();
