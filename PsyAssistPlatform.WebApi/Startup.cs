@@ -7,6 +7,7 @@ using PsyAssistPlatform.Application.Mapping;
 using PsyAssistPlatform.Application.Services;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
+using PsyAssistPlatform.WebApi.Contracts;
 using PsyAssistPlatform.WebApi.Mapping;
 using PsyAssistPlatform.WebApi.Middlewares;
 using PsyAssistPlatform.WebApi.Models.Approach;
@@ -14,6 +15,7 @@ using PsyAssistPlatform.WebApi.Models.Contact;
 using PsyAssistPlatform.WebApi.Models.PsychologistProfile;
 using PsyAssistPlatform.WebApi.Models.Questionnaire;
 using PsyAssistPlatform.WebApi.Models.User;
+using PsyAssistPlatform.WebApi.Services;
 
 namespace PsyAssistPlatform.WebApi;
 
@@ -53,7 +55,10 @@ public class Startup
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IStatusService, StatusService>();
         services.AddScoped<IUserService, UserService>();
-        
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         services.AddDbContext<PsyAssistContext>(options =>
         {
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
@@ -64,6 +69,7 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseMiddleware<LoggingHandlerMiddleware>();
         app.UseMiddleware<ExceptionHandlerMiddleware>();
         
         if (env.IsDevelopment())

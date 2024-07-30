@@ -1,4 +1,5 @@
 using PsyAssistPlatform.Application.Exceptions;
+using Serilog;
 
 namespace PsyAssistPlatform.WebApi.Middlewares;
 
@@ -19,6 +20,8 @@ public class ExceptionHandlerMiddleware
         }
         catch (NotFoundException ex)
         {
+            Log.Error(ex, ex.Message);
+
             context.Response.StatusCode = 404;
             context.Response.ContentType = "text/plain";
             
@@ -26,6 +29,8 @@ public class ExceptionHandlerMiddleware
         }
         catch (IncorrectDataException ex)
         {
+            Log.Error(ex, ex.Message);
+
             context.Response.StatusCode = 400;
             context.Response.ContentType = "text/plain";
             
@@ -33,6 +38,8 @@ public class ExceptionHandlerMiddleware
         }
         catch (BusinessLogicException ex)
         {
+            Log.Error(ex, ex.Message);
+
             context.Response.StatusCode = 422;
             context.Response.ContentType = "text/plain";
             
@@ -40,13 +47,17 @@ public class ExceptionHandlerMiddleware
         }
         catch (InternalPlatformErrorException ex)
         {
+            Log.Error(ex, ex.Message);
+
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";
             
             await context.Response.WriteAsync(ex.Message);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Log.Error(ex, ex.Message);
+
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";
             
