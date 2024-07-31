@@ -4,9 +4,9 @@ namespace PsyAssistPlatform.Application.Interfaces.Service;
 
 public interface IPsychologistProfileService
 {
-    Task<IEnumerable<IPsychologistProfile>> GetActivePsychologistProfilesAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<IPsychologistProfile>?> GetActivePsychologistProfilesAsync(CancellationToken cancellationToken);
     
-    Task<IEnumerable<IPsychologistProfile>> GetAllPsychologistProfilesAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<IPsychologistProfile>?> GetAllPsychologistProfilesAsync(CancellationToken cancellationToken);
     
     Task<IPsychologistProfile?> GetPsychologistProfileByIdAsync(int id, CancellationToken cancellationToken);
 

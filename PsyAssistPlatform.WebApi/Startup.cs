@@ -65,6 +65,8 @@ public class Startup
             options.UseLazyLoadingProxies();
             options.EnableSensitiveDataLogging();
         });
+
+        services.AddMemoryCache();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

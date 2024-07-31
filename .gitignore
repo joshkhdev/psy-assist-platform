@@ -16,3 +16,4 @@ packages/
 *.db-shm
 *.db-wal
 *.bin
+*.txt

@@ -164,7 +164,7 @@ public static class FakeDataFactory
         },
     };
 
-    public static IEnumerable<PsychologistProfile> Psychologists => new List<PsychologistProfile>()
+    public static IEnumerable<PsychologistProfile> PsychologistProfiles => new List<PsychologistProfile>()
     {
         new()
         {
