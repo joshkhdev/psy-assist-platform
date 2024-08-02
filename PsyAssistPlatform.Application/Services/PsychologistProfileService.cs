@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using PsyAssistPlatform.Application.Dto.PsychologistProfile;
 using PsyAssistPlatform.Application.Exceptions;
 using PsyAssistPlatform.Application.Interfaces.Dto.PsychologistProfile;
@@ -13,6 +14,7 @@ public class PsychologistProfileService : IPsychologistProfileService
     private readonly IRepository<PsychologistProfile> _psychologistProfileRepository;
     private readonly IRepository<User> _userRepository;
     private readonly IMapper _applicationMapper;
+    private readonly IMemoryCache _memoryCache;
     
     private const string PsychologistProfileNotFoundMessage = "Psychologist profile with Id [{0}] not found";
     private const string UserNotFoundMessage = "User with Id [{0}] not found";
@@ -23,37 +25,64 @@ public class PsychologistProfileService : IPsychologistProfileService
         "Name, Description, Time zone, Including queries, Excluding queries values cannot be null or empty";
     private const string PsychologistProfileCannotBeAccessibleMessage =
         "Psychologist profile with Id [{0}] cannot be accessible, because the user is blocked";
+    private const string PsychologistProfileCacheName = "PsychologistProfile_{0}";
 
     public PsychologistProfileService(
         IRepository<PsychologistProfile> psychologistProfileRepository, 
         IRepository<User> userRepository,
-        IMapper applicationMapper)
+        IMapper applicationMapper,
+        IMemoryCache memoryCache)
     {
         _psychologistProfileRepository = psychologistProfileRepository;
         _userRepository = userRepository;
         _applicationMapper = applicationMapper;
+        _memoryCache = memoryCache;
     }
     
-    public async Task<IEnumerable<IPsychologistProfile>> GetAllPsychologistProfilesAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<IPsychologistProfile>?> GetAllPsychologistProfilesAsync(CancellationToken cancellationToken)
     {
-        var psychologistProfiles = await _psychologistProfileRepository.GetAllAsync(cancellationToken);
-        return _applicationMapper.Map<IEnumerable<PsychologistProfileDto>>(psychologistProfiles);
+        var cacheKey = string.Format(PsychologistProfileCacheName, "All");
+        var psychologistProfiles = await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+        {
+            cacheEntry.SetAbsoluteExpiration(TimeSpan.FromHours(12));
+
+            var allPsychologistProfiles = await _psychologistProfileRepository.GetAllAsync(cancellationToken);
+            return _applicationMapper.Map<IEnumerable<PsychologistProfileDto>>(allPsychologistProfiles);
+        });
+
+        return psychologistProfiles;
     }
 
-    public async Task<IEnumerable<IPsychologistProfile>> GetActivePsychologistProfilesAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<IPsychologistProfile>?> GetActivePsychologistProfilesAsync(CancellationToken cancellationToken)
     {
-        var activePsychologistProfiles =
-            await _psychologistProfileRepository.GetAsync(profile => profile.IsActive == true, cancellationToken);
-        return _applicationMapper.Map<IEnumerable<PsychologistProfileDto>>(activePsychologistProfiles);
+        var cacheKey = string.Format(PsychologistProfileCacheName, "Active");
+        var activePsychologistProfiles = await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+        {
+            cacheEntry.SetAbsoluteExpiration(TimeSpan.FromHours(12));
+
+            var allActivePsychologistProfiles =
+                await _psychologistProfileRepository.GetAsync(profile => profile.IsActive == true, cancellationToken);
+            return _applicationMapper.Map<IEnumerable<PsychologistProfileDto>>(allActivePsychologistProfiles);
+        });
+
+        return activePsychologistProfiles;
     }
 
     public async Task<IPsychologistProfile?> GetPsychologistProfileByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var psychologistProfile = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
-        if (psychologistProfile is null)
-            throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
+        var cacheKey = string.Format(PsychologistProfileCacheName, id);
+        var psychologistProfile = await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+        {
+            cacheEntry.SetAbsoluteExpiration(TimeSpan.FromHours(12));
+            
+            var psychologistProfileById = await _psychologistProfileRepository.GetByIdAsync(id, cancellationToken);
+            if (psychologistProfileById is null)
+                throw new NotFoundException(string.Format(PsychologistProfileNotFoundMessage, id));
+            
+            return _applicationMapper.Map<PsychologistProfileDto>(psychologistProfileById);
+        });
 
-        return _applicationMapper.Map<PsychologistProfileDto>(psychologistProfile);
+        return psychologistProfile;
     }
 
     public async Task<IPsychologistProfile> CreatePsychologistProfileAsync(
@@ -78,6 +107,9 @@ public class PsychologistProfileService : IPsychologistProfileService
         var psychologistProfile =
             _applicationMapper.Map<PsychologistProfile>(psychologistProfileData);
         psychologistProfile.IsActive = true;
+        
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "All"));
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "Active"));
 
         return _applicationMapper.Map<PsychologistProfileDto>(
             await _psychologistProfileRepository.AddAsync(psychologistProfile, cancellationToken));
@@ -111,6 +143,10 @@ public class PsychologistProfileService : IPsychologistProfileService
             _applicationMapper.Map<PsychologistProfile>(psychologistProfileData);
         updatedPsychologistProfile.Id = id;
         updatedPsychologistProfile.IsActive = psychologistProfile.IsActive;
+        
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "All"));
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "Active"));
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, id));
 
         return _applicationMapper.Map<PsychologistProfileDto>(
             await _psychologistProfileRepository.UpdateAsync(updatedPsychologistProfile, cancellationToken));
@@ -138,6 +174,10 @@ public class PsychologistProfileService : IPsychologistProfileService
         }
 
         psychologistProfile.IsActive = true;
+        
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "All"));
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "Active"));
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, id));
 
         return _applicationMapper.Map<PsychologistProfileDto>(
             await _psychologistProfileRepository.UpdateAsync(psychologistProfile, cancellationToken));
@@ -153,6 +193,10 @@ public class PsychologistProfileService : IPsychologistProfileService
             return _applicationMapper.Map<PsychologistProfileDto>(psychologistProfile);
         
         psychologistProfile.IsActive = false;
+        
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "All"));
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, "Active"));
+        _memoryCache.Remove(string.Format(PsychologistProfileCacheName, id));
 
         return _applicationMapper.Map<PsychologistProfileDto>(
             await _psychologistProfileRepository.UpdateAsync(psychologistProfile, cancellationToken));
