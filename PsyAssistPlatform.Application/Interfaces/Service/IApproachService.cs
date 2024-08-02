@@ -4,7 +4,7 @@ namespace PsyAssistPlatform.Application.Interfaces.Service;
 
 public interface IApproachService
 {
-    Task<IEnumerable<IApproach>> GetApproachesAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<IApproach>?> GetApproachesAsync(CancellationToken cancellationToken);
 
     Task<IApproach?> GetApproachByIdAsync(int id, CancellationToken cancellationToken);
 

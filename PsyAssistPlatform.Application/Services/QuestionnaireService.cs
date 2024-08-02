@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using PsyAssistPlatform.Application.Dto.Questionnaire;
 using PsyAssistPlatform.Application.Exceptions;
 using PsyAssistPlatform.Application.Interfaces.Dto.Questionnaire;
@@ -13,30 +14,50 @@ public class QuestionnaireService : IQuestionnaireService
     private readonly IRepository<Questionnaire> _questionnaireRepository;
     private readonly IRepository<Contact> _contactRepository;
     private readonly IMapper _applicationMapper;
+    private readonly IMemoryCache _memoryCache;
+    private const string QuestionnaireCacheName = "Questionnaire_{0}";
 
     public QuestionnaireService(
         IRepository<Questionnaire> questionnaireRepository, 
         IRepository<Contact> contactRepository, 
-        IMapper applicationMapper)
+        IMapper applicationMapper,
+        IMemoryCache memoryCache)
     {
         _questionnaireRepository = questionnaireRepository;
         _contactRepository = contactRepository;
         _applicationMapper = applicationMapper;
+        _memoryCache = memoryCache;
     }
     
-    public async Task<IEnumerable<IQuestionnaire>> GetQuestionnairesAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<IQuestionnaire>?> GetQuestionnairesAsync(CancellationToken cancellationToken)
     {
-        var questionnaires = await _questionnaireRepository.GetAllAsync(cancellationToken);
-        return _applicationMapper.Map<IEnumerable<QuestionnaireDto>>(questionnaires);
+        var cacheKey = string.Format(QuestionnaireCacheName, "All");
+        var questionnaires = await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+        {
+            cacheEntry.SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+            
+            var allQuestionnaires = await _questionnaireRepository.GetAllAsync(cancellationToken);
+            return _applicationMapper.Map<IEnumerable<QuestionnaireDto>>(allQuestionnaires);
+        });
+
+        return questionnaires;
     }
 
     public async Task<IQuestionnaire?> GetQuestionnaireByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var questionnaire = await _questionnaireRepository.GetByIdAsync(id, cancellationToken);
-        if (questionnaire is null)
-            throw new NotFoundException($"Questionnaire with Id [{id}] not found");
+        var cacheKey = string.Format(QuestionnaireCacheName, id);
+        var questionnaire = await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+        {
+            cacheEntry.SetAbsoluteExpiration(TimeSpan.FromHours(24));
 
-        return _applicationMapper.Map<QuestionnaireDto>(questionnaire);
+            var questionnaireById = await _questionnaireRepository.GetByIdAsync(id, cancellationToken);
+            if (questionnaireById is null)
+                throw new NotFoundException($"Questionnaire with Id [{id}] not found");
+
+            return _applicationMapper.Map<QuestionnaireDto>(questionnaireById);
+        });
+
+        return questionnaire;
     }
 
     public async Task<IQuestionnaire> CreateQuestionnaireAsync(ICreateQuestionnaire questionnaireData, CancellationToken cancellationToken)
@@ -86,6 +107,8 @@ public class QuestionnaireService : IQuestionnaireService
         var createdQuestionnaire = _applicationMapper.Map<Questionnaire>(questionnaireData);
         createdQuestionnaire.ContactId = contact.Id;
         createdQuestionnaire.RegistrationDate = DateTime.Now.ToUniversalTime();
+        
+        _memoryCache.Remove(string.Format(QuestionnaireCacheName, "All"));
 
         return _applicationMapper.Map<QuestionnaireDto>(
             await _questionnaireRepository.AddAsync(createdQuestionnaire, cancellationToken));

@@ -14,7 +14,7 @@ public class PsyAssistContext : DbContext
     
     public DbSet<Contact> Contacts { get; set; }
     
-    public DbSet<PsychologistProfile> Psychologists { get; set; }
+    public DbSet<PsychologistProfile> PsychologistProfiles { get; set; }
     
     public DbSet<Questionnaire> Questionnaires { get; set; }
     

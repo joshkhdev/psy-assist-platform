@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using Moq;
 using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
@@ -13,24 +14,25 @@ public class ApplicationFixture : IDisposable
     public ApplicationFixture()
     {
         IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new ApplicationMappingProfile())));
+        IMemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions());
 
         ApproachRepositoryMock = new Mock<IRepository<Approach>>();
-        ApproachService = new ApproachService(ApproachRepositoryMock.Object, mapper);
+        ApproachService = new ApproachService(ApproachRepositoryMock.Object, mapper, memoryCache);
         ContactRepositoryMock = new Mock<IRepository<Contact>>();
-        ContactService = new ContactService(ContactRepositoryMock.Object, mapper);
+        ContactService = new ContactService(ContactRepositoryMock.Object, mapper, memoryCache);
         QuestionnaireRepositoryMock = new Mock<IRepository<Questionnaire>>();
         QuestionnaireService =
-            new QuestionnaireService(QuestionnaireRepositoryMock.Object, ContactRepositoryMock.Object, mapper);
+            new QuestionnaireService(QuestionnaireRepositoryMock.Object, ContactRepositoryMock.Object, mapper, memoryCache);
         RoleRepositoryMock = new Mock<IRepository<Role>>();
-        RoleService = new RoleService(RoleRepositoryMock.Object, mapper);
+        RoleService = new RoleService(RoleRepositoryMock.Object, mapper, memoryCache);
         UserRepositoryMock = new Mock<IRepository<User>>();
         PsychologistProfileRepositoryMock = new Mock<IRepository<PsychologistProfile>>();
         UserService = new UserService(UserRepositoryMock.Object, PsychologistProfileRepositoryMock.Object,
             RoleRepositoryMock.Object, mapper);
         PsychologistProfileService = new PsychologistProfileService(PsychologistProfileRepositoryMock.Object,
-            UserRepositoryMock.Object, mapper);
+            UserRepositoryMock.Object, mapper, memoryCache);
         StatusRepositoryMock = new Mock<IRepository<Status>>();
-        StatusService = new StatusService(StatusRepositoryMock.Object, mapper);
+        StatusService = new StatusService(StatusRepositoryMock.Object, mapper, memoryCache);
     }
 
     public Mock<IRepository<Approach>> ApproachRepositoryMock { get; init; }
