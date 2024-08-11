@@ -1,5 +1,4 @@
 using AutoMapper;
-using PsyAssistPlatform.Application.Dto.Approach;
 using PsyAssistPlatform.Application.Interfaces.Dto.Approach;
 using PsyAssistPlatform.Application.Interfaces.Dto.Contact;
 using PsyAssistPlatform.Application.Interfaces.Dto.PsychologistProfile;
