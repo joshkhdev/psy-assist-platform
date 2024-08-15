@@ -10,16 +10,16 @@ public class Program
     {
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .WriteTo.File(
-                $"{Environment.CurrentDirectory}/Logs/PsyAssistPlatformWebApiLog-.txt", 
-                rollingInterval: RollingInterval.Day, 
-                retainedFileCountLimit: 30
-            ).CreateLogger();
+            .WriteTo.Console()
+            .CreateLogger();
 
         var host = CreateHostBuilder(args).Build();
         
         using var scope = host.Services.CreateScope();
         var serviceProvider = scope.ServiceProvider;
+        
+        Log.Information("Starting web host");
+        
         try
         {
             var context = serviceProvider.GetRequiredService<PsyAssistContext>();
@@ -29,6 +29,10 @@ public class Program
         {
             Log.Fatal(ex, "An error ocurred while app initialization");
         }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
         
         host.Run();
     }
@@ -36,5 +40,22 @@ public class Program
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .UseSerilog()
-            .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            })
+            .ConfigureLogging((context, logging) =>
+            {
+                var environment = context.HostingEnvironment.EnvironmentName;
+                if (environment == "Production")
+                {
+                    Log.Logger = new LoggerConfiguration()
+                        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                        .WriteTo.File(
+                            $"{Environment.CurrentDirectory}/Logs/PsyAssistPlatformWebApiLog-.txt",
+                            rollingInterval: RollingInterval.Day,
+                            retainedFileCountLimit: 30)
+                        .CreateLogger();
+                }
+            });
 }
