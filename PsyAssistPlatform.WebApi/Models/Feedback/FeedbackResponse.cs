@@ -1,6 +1,6 @@
-﻿namespace PsyAssistPlatform.Messages;
+﻿namespace PsyAssistPlatform.WebApi.Models.Feedback;
 
-public class FeedbackMessage
+public class FeedbackResponse
 {
     public int Id { get; set; }
 

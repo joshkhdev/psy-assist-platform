@@ -1,6 +1,8 @@
-﻿namespace PsyAssistPlatform.Messages;
+﻿using PsyAssistPlatform.WebApi.Models.Feedback;
+
+namespace PsyAssistPlatform.Messages;
 
 public class FeedbacksMessage
 {
-    public required IEnumerable<FeedbackMessage> Items { get; set; }
+    public required IEnumerable<FeedbackResponse> Items { get; set; }
 }

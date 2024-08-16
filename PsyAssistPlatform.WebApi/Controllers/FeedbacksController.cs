@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using PsyAssistPlatform.Messages;
+using PsyAssistPlatform.WebApi.Models.Feedback;
 
 namespace PsyAssistPlatform.WebApi.Controllers;
 
@@ -20,10 +21,10 @@ public class FeedbacksController : ControllerBase
     /// Получить список всех отзывов
     /// </summary>
     [HttpGet]
-    public async Task<IEnumerable<FeedbackMessage>> GetAllFeedbacksAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<FeedbackResponse>> GetAllFeedbacksAsync(CancellationToken cancellationToken)
     {
-        var response = await _requestClient.GetResponse<FeedbacksMessage>(new List<FeedbackMessage>(), cancellationToken);
-        var feedbacks = new List<FeedbackMessage>(response.Message.Items);
+        var response = await _requestClient.GetResponse<FeedbacksMessage>(new List<FeedbackResponse>(), cancellationToken);
+        var feedbacks = new List<FeedbackResponse>(response.Message.Items);
 
         return feedbacks;
     }
