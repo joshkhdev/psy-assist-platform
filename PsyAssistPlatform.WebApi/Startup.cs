@@ -1,6 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using PsyAssistPlatform.Application.Integrations.Content;
+using PsyAssistPlatform.Application.Interfaces.Integration;
 using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.Application.Mapping;
@@ -58,6 +60,11 @@ public class Startup
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        services.AddHttpClient<IContent, Content>(x =>
+        {
+            x.BaseAddress = new Uri(Configuration["ContentSettings:ContentApiUrl"]);
+        });
 
         services.AddDbContext<PsyAssistContext>(options =>
         {
