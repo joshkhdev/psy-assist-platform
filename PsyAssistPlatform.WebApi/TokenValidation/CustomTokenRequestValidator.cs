@@ -2,29 +2,28 @@
 using IdentityServer4.Validation;
 using System.Security.Claims;
 
-namespace PsyAssistPlatform.WebApi.TokenValidation
+namespace PsyAssistPlatform.WebApi.TokenValidation;
+
+public class CustomTokenRequestValidator: ICustomTokenRequestValidator
 {
-    public class CustomTokenRequestValidator: ICustomTokenRequestValidator
+    public Task ValidateAsync(CustomTokenRequestValidationContext context)
     {
-        public Task ValidateAsync(CustomTokenRequestValidationContext context)
+        var request = context.Result.ValidatedRequest;
+
+        if (request.GrantType == GrantType.ClientCredentials)
         {
-            var request = context.Result.ValidatedRequest;
-
-            if (request.GrantType == GrantType.ClientCredentials)
+            var roleClaim = request.Raw.Get("role");
+            if (!string.IsNullOrWhiteSpace(roleClaim))
             {
-                var roleClaim = request.Raw.Get("role");
-                if (!string.IsNullOrEmpty(roleClaim))
+                var clientClaims = new List<Claim>
                 {
-                    var clientClaims = new List<Claim>
-                    {
-                        new Claim("role", roleClaim)
-                    };
+                    new Claim("role", roleClaim)
+                };
 
-                    clientClaims.ForEach(request.ClientClaims.Add);
-                }
+                clientClaims.ForEach(request.ClientClaims.Add);
             }
-
-            return Task.CompletedTask;
         }
+
+        return Task.CompletedTask;
     }
 }
