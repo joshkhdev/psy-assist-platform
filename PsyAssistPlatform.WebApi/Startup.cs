@@ -61,7 +61,7 @@ public class Startup
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-        services.AddHttpClient<IContent, Content>(x =>
+        services.AddHttpClient<IContentService, ContentService>(x =>
         {
             x.BaseAddress = new Uri(Configuration["ContentSettings:ContentApiUrl"]);
         });

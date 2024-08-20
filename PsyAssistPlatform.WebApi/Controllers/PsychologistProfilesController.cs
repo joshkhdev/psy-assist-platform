@@ -12,9 +12,9 @@ public class PsychologistProfilesController : ControllerBase
 {
     private readonly IPsychologistProfileService _psychologistProfileService;
     private readonly IMapper _mapper;
-    private readonly IContent _content;
+    private readonly IContentService _content;
 
-    public PsychologistProfilesController(IPsychologistProfileService psychologistProfileService, IMapper mapper, IContent content)
+    public PsychologistProfilesController(IPsychologistProfileService psychologistProfileService, IMapper mapper, IContentService content)
     {
         _psychologistProfileService = psychologistProfileService;
         _mapper = mapper;

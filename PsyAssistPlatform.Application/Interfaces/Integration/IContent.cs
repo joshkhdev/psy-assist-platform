@@ -1,6 +1,6 @@
 ﻿namespace PsyAssistPlatform.Application.Interfaces.Integration;
 
-public interface IContent
+public interface IContentService
 {
     Task<string> GetContent(int psyId, int type, CancellationToken cancellationToken);
 }

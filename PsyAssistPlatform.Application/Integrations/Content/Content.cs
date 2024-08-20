@@ -3,11 +3,11 @@ using PsyAssistPlatform.Application.Interfaces.Integration;
 
 namespace PsyAssistPlatform.Application.Integrations.Content;
 
-public class Content : IContent
+public class ContentService : IContentService
 {
     private readonly HttpClient _httpClient;
 
-    public Content(HttpClient httpClient)
+    public ContentService(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
