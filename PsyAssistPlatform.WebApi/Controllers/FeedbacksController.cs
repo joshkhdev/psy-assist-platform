@@ -11,8 +11,7 @@ public class FeedbacksController : ControllerBase
 {
     private readonly IRequestClient<FeedbacksMessage> _requestClient;
 
-    public FeedbacksController(
-        IRequestClient<FeedbacksMessage> requestClient)
+    public FeedbacksController(IRequestClient<FeedbacksMessage> requestClient)
     {
         _requestClient = requestClient;
     }
@@ -24,8 +23,7 @@ public class FeedbacksController : ControllerBase
     public async Task<IEnumerable<FeedbackResponse>> GetAllFeedbacksAsync(CancellationToken cancellationToken)
     {
         var response = await _requestClient.GetResponse<FeedbacksMessage>(new List<FeedbackResponse>(), cancellationToken);
-        var feedbacks = new List<FeedbackResponse>(response.Message.Items);
 
-        return feedbacks;
+        return response.Message.Items;
     }
 }

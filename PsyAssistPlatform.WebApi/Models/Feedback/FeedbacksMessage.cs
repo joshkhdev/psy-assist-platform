@@ -2,7 +2,7 @@
 
 namespace PsyAssistPlatform.Messages;
 
-public class FeedbacksMessage
+public record FeedbacksMessage
 {
     public required IEnumerable<FeedbackResponse> Items { get; set; }
 }

@@ -14,8 +14,8 @@ public static class ServiceCollectionExtensions
 
                 cfg.Host(rabbitUrl, h =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username(configuration["IntegrationSettings:RabbitUser"]!);
+                    h.Password(configuration["IntegrationSettings:RabbitPassword"]!);
                 });
 
                 cfg.ConfigureEndpoints(context);
