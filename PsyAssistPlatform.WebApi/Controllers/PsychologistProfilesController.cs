@@ -12,13 +12,13 @@ public class PsychologistProfilesController : ControllerBase
 {
     private readonly IPsychologistProfileService _psychologistProfileService;
     private readonly IMapper _mapper;
-    private readonly IContentService _content;
+    private readonly IContentService _contentService;
 
-    public PsychologistProfilesController(IPsychologistProfileService psychologistProfileService, IMapper mapper, IContentService content)
+    public PsychologistProfilesController(IPsychologistProfileService psychologistProfileService, IMapper mapper, IContentService contentService)
     {
         _psychologistProfileService = psychologistProfileService;
         _mapper = mapper;
-        _content = content;
+        _contentService = contentService;
     }
     
     /// <summary>
@@ -106,7 +106,7 @@ public class PsychologistProfilesController : ControllerBase
     [HttpPost("{id:int}/content")]
     public async Task<IActionResult> GetPsychologistContentAsync(int id, int type, CancellationToken cancellationToken)
     {
-        var response = await _content.GetContent(id, type, cancellationToken);
+        var response = await _contentService.GetContent(id, type, cancellationToken);
         return Ok(response);
     }
 }

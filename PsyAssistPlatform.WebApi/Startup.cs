@@ -1,7 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using PsyAssistPlatform.Application.Integrations.Content;
+using PsyAssistPlatform.Application.Integrations.Service;
 using PsyAssistPlatform.Application.Interfaces.Integration;
 using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;

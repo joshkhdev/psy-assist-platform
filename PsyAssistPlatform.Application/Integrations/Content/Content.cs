@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
 using PsyAssistPlatform.Application.Interfaces.Integration;
 
-namespace PsyAssistPlatform.Application.Integrations.Content;
+namespace PsyAssistPlatform.Application.Integrations.Service;
 
 public class ContentService : IContentService
 {

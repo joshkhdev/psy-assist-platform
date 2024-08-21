@@ -1,4 +1,4 @@
-﻿namespace PsyAssistPlatform.Application.Integrations.Content;
+﻿namespace PsyAssistPlatform.Application.Integrations.Service;
 
 public class FileMetadata
 {
