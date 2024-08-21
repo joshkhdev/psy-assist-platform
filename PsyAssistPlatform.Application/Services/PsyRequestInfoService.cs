@@ -77,7 +77,7 @@ public class PsyRequestInfoService : IPsyRequestInfoService
         return await _psyRequestInfoRepository.GetPsyRequestInfoByIdAsync(id, cancellationToken);
     }
 
-    public async Task<IPsyRequestInfo?> ChangePsyRequestStatus(
+    public async Task<IPsyRequestInfo?> ChangePsyRequestStatusAsync(
         IChangePsyRequestStatus changePsyRequestStatusData, 
         CancellationToken cancellationToken)
     {
@@ -190,7 +190,7 @@ public class PsyRequestInfoService : IPsyRequestInfoService
         };
     }
 
-    public async Task<IPsyRequestInfo?> RejectPsyRequest(
+    public async Task<IPsyRequestInfo?> RejectPsyRequestAsync(
         int psyRequestId, 
         int userId, 
         string comment,

@@ -46,8 +46,7 @@ public class Program
             })
             .ConfigureLogging((context, logging) =>
             {
-                var environment = context.HostingEnvironment.EnvironmentName;
-                if (environment == "Production")
+                if (context.HostingEnvironment.IsProduction())
                 {
                     Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)

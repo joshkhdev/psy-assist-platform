@@ -56,12 +56,12 @@ public class PsyRequestsInfoController : ControllerBase
     /// Изменить статус заявки
     /// </summary>
     [HttpPost]
-    public async Task<PsyRequestInfoResponse?> ChangePsyRequestStatus(
+    public async Task<PsyRequestInfoResponse?> ChangePsyRequestStatusAsync(
         ChangePsyRequestStatusRequest changePsyRequestStatusRequest,
         CancellationToken cancellationToken)
     {
         var psyRequestStatus =
-            await _psyRequestInfoService.ChangePsyRequestStatus(changePsyRequestStatusRequest, cancellationToken);
+            await _psyRequestInfoService.ChangePsyRequestStatusAsync(changePsyRequestStatusRequest, cancellationToken);
         return _mapper.Map<PsyRequestInfoResponse>(psyRequestStatus);
     }
 }

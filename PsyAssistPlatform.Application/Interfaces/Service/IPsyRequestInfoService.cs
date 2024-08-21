@@ -10,7 +10,7 @@ public interface IPsyRequestInfoService
 
     Task<IEnumerable<IPsyRequestInfo>?> GetPsyRequestInfoByIdAsync(int id, CancellationToken cancellationToken);
 
-    Task<IPsyRequestInfo?> ChangePsyRequestStatus(IChangePsyRequestStatus changePsyRequestStatusData, CancellationToken cancellationToken);
+    Task<IPsyRequestInfo?> ChangePsyRequestStatusAsync(IChangePsyRequestStatus changePsyRequestStatusData, CancellationToken cancellationToken);
     
-    Task<IPsyRequestInfo?> RejectPsyRequest(int psyRequestId, int userId, string comment, CancellationToken cancellationToken);
+    Task<IPsyRequestInfo?> RejectPsyRequestAsync(int psyRequestId, int userId, string comment, CancellationToken cancellationToken);
 }
