@@ -29,7 +29,8 @@ public class PsyRequestInfoRepository : IPsyRequestInfoRepository
 
         var psyRequestsData = await _context.PsyRequests
             .Where(psyRequest => latestPsyRequestStatuses.Select(psyRequestStatus => psyRequestStatus.PsyRequestId)
-                .Contains(psyRequest.Id)).Include(psyRequest => psyRequest.Questionnaire)
+                .Contains(psyRequest.Id))
+            .Include(psyRequest => psyRequest.Questionnaire)
             .Include(psyRequest => psyRequest.PsychologistProfile)
             .OrderBy(psyRequest => psyRequest.Id)
             .ToListAsync(cancellationToken);
@@ -119,7 +120,8 @@ public class PsyRequestInfoRepository : IPsyRequestInfoRepository
 
         var psyRequests = await _context.PsyRequests
             .Where(psyRequest => latestPsyRequestStatuses.Select(psyRequestStatus => psyRequestStatus.PsyRequestId)
-                .Contains(psyRequest.Id)).Include(psyRequest => psyRequest.Questionnaire)
+                .Contains(psyRequest.Id))
+            .Include(psyRequest => psyRequest.Questionnaire)
             .Include(psyRequest => psyRequest.PsychologistProfile)
             .SingleOrDefaultAsync(psyRequest => psyRequest.Id == id, cancellationToken);
 
