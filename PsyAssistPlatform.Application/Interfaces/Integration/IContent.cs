@@ -2,5 +2,5 @@
 
 public interface IContentService
 {
-    Task<string> GetContent(int psyId, int type, CancellationToken cancellationToken);
+    Task<string> GetContentAsync(int psyId, int type, CancellationToken cancellationToken);
 }

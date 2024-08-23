@@ -103,10 +103,10 @@ public class PsychologistProfilesController : ControllerBase
     /// <summary>
     /// Получить контент психолога
     /// </summary>
-    [HttpPost("{id:int}/content")]
+    [HttpGet("{id:int}/content")]
     public async Task<IActionResult> GetPsychologistContentAsync(int id, int type, CancellationToken cancellationToken)
     {
-        var response = await _contentService.GetContent(id, type, cancellationToken);
+        var response = await _contentService.GetContentAsync(id, type, cancellationToken);
         return Ok(response);
     }
 }

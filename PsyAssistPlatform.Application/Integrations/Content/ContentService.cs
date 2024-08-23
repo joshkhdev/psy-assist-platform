@@ -12,7 +12,7 @@ public class ContentService : IContentService
         _httpClient = httpClient;
     }
 
-    public async Task<string> GetContent(int psyId, int type, CancellationToken cancellationToken)
+    public async Task<string> GetContentAsync(int psyId, int type, CancellationToken cancellationToken)
     {
         var fileMetadata = new FileMetadata() { PsyId = psyId.ToString(), Type = type };
         var response = await _httpClient.PostAsJsonAsync(string.Empty, fileMetadata, cancellationToken);
