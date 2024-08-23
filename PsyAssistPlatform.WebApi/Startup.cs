@@ -8,6 +8,7 @@ using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.Application.Mapping;
 using PsyAssistPlatform.Application.Services;
+using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
 using PsyAssistPlatform.WebApi.Contracts;

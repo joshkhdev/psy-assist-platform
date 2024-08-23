@@ -18,7 +18,9 @@ public class LoggingHandlerMiddleware
 
         var requestBody = await ReadRequestBodyAsync(context);
 
-        Log.Information("REQUEST: UserId: {@UserId} | RequestMethod: {@RequestMethod} | RequestPath: {@RequestPath} | RequestBody: {@RequestBody}", userId, context.Request.Method, context.Request.Path, requestBody);
+        Log.Information(
+            "REQUEST: UserId: {@UserId} | RequestMethod: {@RequestMethod} | RequestPath: {@RequestPath} | RequestBody: {@RequestBody}",
+            userId, context.Request.Method, context.Request.Path, requestBody);
 
         await _next(context);
     }
