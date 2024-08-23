@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.Persistence.EntityTypeConfigurations;
+using Humanizer;
 
 namespace PsyAssistPlatform.Persistence;
 
@@ -23,9 +24,15 @@ public class PsyAssistContext : DbContext
     public DbSet<Status> Statuses { get; set; }
     
     public DbSet<User> Users { get; set; }
+    
+    public DbSet<PsyRequest> PsyRequests { get; set; }
+    
+    public DbSet<PsyRequestStatus> PsyRequestStatuses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder
             .ApplyConfiguration(new ApproachConfiguration())
             .ApplyConfiguration(new ContactConfiguration())
@@ -33,11 +40,20 @@ public class PsyAssistContext : DbContext
             .ApplyConfiguration(new QuestionnaireConfiguration())
             .ApplyConfiguration(new RoleConfiguration())
             .ApplyConfiguration(new StatusConfiguration())
-            .ApplyConfiguration(new UserConfiguration());
+            .ApplyConfiguration(new UserConfiguration())
+            .ApplyConfiguration(new PsyRequestConfiguration())
+            .ApplyConfiguration(new PsyRequestStatusConfiguration());
         
-        base.OnModelCreating(modelBuilder);
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            var tableName = entityType.ClrType.Name.Pluralize().Underscore();
+            entityType.SetTableName(tableName);
+
+            foreach (var property in entityType.GetProperties())
+            {
+                var propertyName = property.Name.Underscore();
+                property.SetColumnName(propertyName);
+            }
+        }
     }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseCamelCaseNamingConvention();
 }

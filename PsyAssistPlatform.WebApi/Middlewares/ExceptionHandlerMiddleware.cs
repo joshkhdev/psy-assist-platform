@@ -20,7 +20,7 @@ public class ExceptionHandlerMiddleware
         }
         catch (NotFoundException ex)
         {
-            Log.Error(ex, ex.Message);
+            Log.Error(ex, "Caught NotFoundException: {Message}", ex.Message);
 
             context.Response.StatusCode = 404;
             context.Response.ContentType = "text/plain";
@@ -29,7 +29,7 @@ public class ExceptionHandlerMiddleware
         }
         catch (IncorrectDataException ex)
         {
-            Log.Error(ex, ex.Message);
+            Log.Error(ex, "Caught IncorrectDataException: {Message}", ex.Message);
 
             context.Response.StatusCode = 400;
             context.Response.ContentType = "text/plain";
@@ -38,7 +38,7 @@ public class ExceptionHandlerMiddleware
         }
         catch (BusinessLogicException ex)
         {
-            Log.Error(ex, ex.Message);
+            Log.Error(ex, "Caught BusinessLogicException: {Message}", ex.Message);
 
             context.Response.StatusCode = 422;
             context.Response.ContentType = "text/plain";
@@ -47,7 +47,7 @@ public class ExceptionHandlerMiddleware
         }
         catch (InternalPlatformErrorException ex)
         {
-            Log.Error(ex, ex.Message);
+            Log.Error(ex, "Caught InternalPlatformErrorException: {Message}", ex.Message);
 
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";
@@ -56,11 +56,12 @@ public class ExceptionHandlerMiddleware
         }
         catch (Exception ex)
         {
-            Log.Error(ex, ex.Message);
+            Log.Error(ex, "Caught Exception: {Message}", ex.Message);
 
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";
             
+            await context.Response.WriteAsync(ex.Message);
             await context.Response.WriteAsync("An error occurred. Please try again later.");
         }
     }

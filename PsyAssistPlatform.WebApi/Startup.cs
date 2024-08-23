@@ -1,13 +1,17 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using PsyAssistFeedback.WebApi.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.Application.Mapping;
 using PsyAssistPlatform.Application.Services;
+using PsyAssistPlatform.Messages;
+using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
 using PsyAssistPlatform.WebApi.Contracts;
@@ -51,6 +55,18 @@ public class Startup
         services.AddValidatorsFromAssemblyContaining<CreateQuestionnaireRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdateUserRequestValidator>();
+        
+        services.AddScoped<IRepository<Approach>, EfCoreRepository<Approach>>();
+        services.AddScoped<IRepository<Contact>, EfCoreRepository<Contact>>();
+        services.AddScoped<IRepository<PsychologistProfile>, EfCoreRepository<PsychologistProfile>>();
+        services.AddScoped<IRepository<PsyRequest>, PsyRequestRepository>();
+        services.AddScoped<IPsyRequestStatusRepository, PsyRequestStatusRepository>();
+        services.AddScoped<IRepository<Questionnaire>, EfCoreRepository<Questionnaire>>();
+        services.AddScoped<IRepository<Role>, RoleRepository>();
+        services.AddScoped<IRepository<User>, EfCoreRepository<User>>();
+        services.AddScoped<IRepository<Status>, StatusRepository>();
+        services.AddScoped<IPsyRequestInfoRepository, PsyRequestInfoRepository>();
+        
 
         services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
         services.AddScoped<IApproachService, ApproachService>();
@@ -60,6 +76,7 @@ public class Startup
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IStatusService, StatusService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPsyRequestInfoService, PsyRequestInfoService>();
 
         services.AddTransient<ICustomTokenRequestValidator, CustomTokenRequestValidator>();
 
@@ -74,6 +91,7 @@ public class Startup
         });
 
         services.AddMemoryCache();
+        services.AddRabbitMqServices(Configuration);
 
         services
             .AddAuthentication(options =>

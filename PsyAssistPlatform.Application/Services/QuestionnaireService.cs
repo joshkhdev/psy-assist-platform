@@ -13,18 +13,26 @@ public class QuestionnaireService : IQuestionnaireService
 {
     private readonly IRepository<Questionnaire> _questionnaireRepository;
     private readonly IRepository<Contact> _contactRepository;
+    private readonly IRepository<PsyRequest> _psyRequestRepository;
+    private readonly IPsyRequestStatusRepository _psyRequestStatusRepository;
     private readonly IMapper _applicationMapper;
     private readonly IMemoryCache _memoryCache;
+    
     private const string QuestionnaireCacheName = "Questionnaire_{0}";
+    private const string PsyRequestInfoCacheName = "PsyRequestInfo_{0}";
 
     public QuestionnaireService(
         IRepository<Questionnaire> questionnaireRepository, 
-        IRepository<Contact> contactRepository, 
+        IRepository<Contact> contactRepository,
+        IRepository<PsyRequest> psyRequestRepository,
+        IPsyRequestStatusRepository psyRequestStatusRepository,
         IMapper applicationMapper,
         IMemoryCache memoryCache)
     {
         _questionnaireRepository = questionnaireRepository;
         _contactRepository = contactRepository;
+        _psyRequestRepository = psyRequestRepository;
+        _psyRequestStatusRepository = psyRequestStatusRepository;
         _applicationMapper = applicationMapper;
         _memoryCache = memoryCache;
     }
@@ -110,7 +118,22 @@ public class QuestionnaireService : IQuestionnaireService
         
         _memoryCache.Remove(string.Format(QuestionnaireCacheName, "All"));
 
-        return _applicationMapper.Map<QuestionnaireDto>(
-            await _questionnaireRepository.AddAsync(createdQuestionnaire, cancellationToken));
+        var questionnaireEntity = await _questionnaireRepository.AddAsync(createdQuestionnaire, cancellationToken);
+        
+        var psyRequest = new PsyRequest { QuestionnaireId = questionnaireEntity.Id };
+        var psyRequestEntity = await _psyRequestRepository.AddAsync(psyRequest, cancellationToken);
+
+        var psyRequestStatus = new PsyRequestStatus
+        {
+            StatusId = (int)StatusType.New,
+            PsyRequestId = psyRequestEntity.Id,
+            StatusUpdateDate = createdQuestionnaire.RegistrationDate,
+            Comment = $"Новая заявка. ID анкеты [{createdQuestionnaire.Id}]"
+        };
+        await _psyRequestStatusRepository.AddPsyRequestStatusAsync(psyRequestStatus, cancellationToken);
+        
+        _memoryCache.Remove(string.Format(PsyRequestInfoCacheName, "All"));
+        
+        return _applicationMapper.Map<QuestionnaireDto>(questionnaireEntity);
     }
 }

@@ -30,7 +30,7 @@ public class EfCoreRepository<T> : IRepository<T>
 
     public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return await _dbSet.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
