@@ -318,4 +318,48 @@ public static class FakeDataFactory
             RegistrationDate = DateTime.UtcNow.AddDays(-10)
         }
     };
+
+    public static IEnumerable<PsyRequest> PsyRequests => new List<PsyRequest>()
+    {
+        new()
+        {
+            QuestionnaireId = 1,
+            PsychologistProfileId = null
+        },
+        new()
+        {
+            QuestionnaireId = 2,
+            PsychologistProfileId = null
+        },
+        new()
+        {
+            QuestionnaireId = 3,
+            PsychologistProfileId = null
+        }
+    };
+
+    public static IEnumerable<PsyRequestStatus> PsyRequestStatuses => new List<PsyRequestStatus>()
+    {
+        new()
+        {
+            PsyRequestId = 1,
+            StatusId = 1,
+            StatusUpdateDate = DateTime.UtcNow,
+            Comment = "Новая заявка. ID анкеты [1]"
+        },
+        new()
+        {
+            PsyRequestId = 2,
+            StatusId = 1,
+            StatusUpdateDate = DateTime.UtcNow,
+            Comment = "Новая заявка. ID анкеты [2]"
+        },
+        new()
+        {
+            PsyRequestId = 3,
+            StatusId = 1,
+            StatusUpdateDate = DateTime.UtcNow,
+            Comment = "Новая заявка. ID анкеты [3]"
+        }
+    };
 }

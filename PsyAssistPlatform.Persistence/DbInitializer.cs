@@ -28,5 +28,11 @@ public static class DbInitializer
         
         context.PsychologistProfiles.AddRange(FakeDataFactory.PsychologistProfiles);
         context.SaveChanges();
+        
+        context.PsyRequests.AddRange(FakeDataFactory.PsyRequests);
+        context.SaveChanges();
+        
+        context.PsyRequestStatuses.AddRange(FakeDataFactory.PsyRequestStatuses);
+        context.SaveChanges();
     }
 }
