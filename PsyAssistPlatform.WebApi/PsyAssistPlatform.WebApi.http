@@ -1,0 +1,6 @@
+﻿@WebApi_HostAddress = https://psy-assist-identity.containers.cloud.ru
+
+POST {{WebApi_HostAddress}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=Admin&password=Pass123$&client_id=ro.client&client_secret=secret&scope=myApi.read myApi.write openid profile offline_access
