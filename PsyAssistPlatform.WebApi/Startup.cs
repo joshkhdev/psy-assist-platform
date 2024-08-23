@@ -2,12 +2,15 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using PsyAssistFeedback.WebApi.Extensions;
 using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.Application.Mapping;
 using PsyAssistPlatform.Application.Services;
+using PsyAssistPlatform.Messages;
 using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
@@ -75,6 +78,7 @@ public class Startup
         });
 
         services.AddMemoryCache();
+        services.AddRabbitMqServices(Configuration);
 
         services
             .AddAuthentication(options =>
