@@ -20,11 +20,14 @@ public class ApplicationFixture : IDisposable
         ApproachService = new ApproachService(ApproachRepositoryMock.Object, mapper, memoryCache);
         ContactRepositoryMock = new Mock<IRepository<Contact>>();
         ContactService = new ContactService(ContactRepositoryMock.Object, mapper, memoryCache);
+        PsyRequestRepositoryMock = new Mock<IRepository<PsyRequest>>();
+        PsyRequestStatusRepositoryMock = new Mock<IPsyRequestStatusRepository>();
         QuestionnaireRepositoryMock = new Mock<IRepository<Questionnaire>>();
         QuestionnaireService =
-            new QuestionnaireService(QuestionnaireRepositoryMock.Object, ContactRepositoryMock.Object, mapper, memoryCache);
+            new QuestionnaireService(QuestionnaireRepositoryMock.Object, ContactRepositoryMock.Object,
+                PsyRequestRepositoryMock.Object, PsyRequestStatusRepositoryMock.Object, mapper, memoryCache);
         RoleRepositoryMock = new Mock<IRepository<Role>>();
-        RoleService = new RoleService(RoleRepositoryMock.Object, mapper, memoryCache);
+        RoleService = new RoleService(RoleRepositoryMock.Object, mapper);
         UserRepositoryMock = new Mock<IRepository<User>>();
         PsychologistProfileRepositoryMock = new Mock<IRepository<PsychologistProfile>>();
         UserService = new UserService(UserRepositoryMock.Object, PsychologistProfileRepositoryMock.Object,
@@ -32,7 +35,7 @@ public class ApplicationFixture : IDisposable
         PsychologistProfileService = new PsychologistProfileService(PsychologistProfileRepositoryMock.Object,
             UserRepositoryMock.Object, mapper, memoryCache);
         StatusRepositoryMock = new Mock<IRepository<Status>>();
-        StatusService = new StatusService(StatusRepositoryMock.Object, mapper, memoryCache);
+        StatusService = new StatusService(StatusRepositoryMock.Object, mapper);
     }
 
     public Mock<IRepository<Approach>> ApproachRepositoryMock { get; init; }
@@ -46,6 +49,10 @@ public class ApplicationFixture : IDisposable
     public Mock<IRepository<PsychologistProfile>> PsychologistProfileRepositoryMock { get; init; }
     
     public IPsychologistProfileService PsychologistProfileService { get; init; }
+    
+    public Mock<IRepository<PsyRequest>> PsyRequestRepositoryMock { get; init; }
+    
+    public Mock<IPsyRequestStatusRepository> PsyRequestStatusRepositoryMock { get; init; }
     
     public Mock<IRepository<Questionnaire>> QuestionnaireRepositoryMock { get; init; }
     

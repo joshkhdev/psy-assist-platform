@@ -27,4 +27,8 @@
     <ProjectReference Include="..\PsyAssistPlatform.Persistence\PsyAssistPlatform.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
 </Project>
