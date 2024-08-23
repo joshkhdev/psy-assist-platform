@@ -5,6 +5,7 @@ using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.Application.Mapping;
 using PsyAssistPlatform.Application.Services;
+using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
 using PsyAssistPlatform.WebApi.Contracts;
@@ -47,7 +48,17 @@ public class Startup
         services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdateUserRequestValidator>();
         
-        services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
+        services.AddScoped<IRepository<Approach>, EfCoreRepository<Approach>>();
+        services.AddScoped<IRepository<Contact>, EfCoreRepository<Contact>>();
+        services.AddScoped<IRepository<PsychologistProfile>, EfCoreRepository<PsychologistProfile>>();
+        services.AddScoped<IRepository<PsyRequest>, PsyRequestRepository>();
+        services.AddScoped<IPsyRequestStatusRepository, PsyRequestStatusRepository>();
+        services.AddScoped<IRepository<Questionnaire>, EfCoreRepository<Questionnaire>>();
+        services.AddScoped<IRepository<Role>, RoleRepository>();
+        services.AddScoped<IRepository<User>, EfCoreRepository<User>>();
+        services.AddScoped<IRepository<Status>, StatusRepository>();
+        services.AddScoped<IPsyRequestInfoRepository, PsyRequestInfoRepository>();
+        
         services.AddScoped<IApproachService, ApproachService>();
         services.AddScoped<IContactService, ContactService>();
         services.AddScoped<IPsychologistProfileService, PsychologistProfileService>();
@@ -55,6 +66,7 @@ public class Startup
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IStatusService, StatusService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPsyRequestInfoService, PsyRequestInfoService>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();

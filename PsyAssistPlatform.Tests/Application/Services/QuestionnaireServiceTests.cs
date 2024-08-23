@@ -14,12 +14,14 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
     private readonly Mock<IRepository<Questionnaire>> _questionnaireRepositoryMock;
     private readonly IQuestionnaireService _questionnaireService;
     private readonly Mock<IRepository<Contact>> _contactRepositoryMock;
+    private readonly Mock<IRepository<PsyRequest>> _psyRequestRepositoryMock;
 
     public QuestionnaireServiceTests(ApplicationFixture applicationFixture)
     {
         _questionnaireRepositoryMock = applicationFixture.QuestionnaireRepositoryMock;
         _questionnaireService = applicationFixture.QuestionnaireService;
         _contactRepositoryMock = applicationFixture.ContactRepositoryMock;
+        _psyRequestRepositoryMock = applicationFixture.PsyRequestRepositoryMock;
     }
     
     #region GetQuestionnaireByIdAsync
@@ -89,6 +91,11 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
                 It.Is<Questionnaire>(questionnaire => questionnaire.Name == createQuestionnaireRequest.Name &&
                                                       questionnaire.ContactId == GetJaneDoeContact().Id),
                 It.IsAny<CancellationToken>())).ReturnsAsync(GetJaneDoeQuestionnaire());
+        _psyRequestRepositoryMock
+            .Setup(repository =>
+                repository.AddAsync(
+                    It.Is<PsyRequest>(psyRequest => psyRequest.QuestionnaireId == GetJaneDoeContact().Id),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(GetJaneDoePsyRequest());
         
         // Act
         var questionnaire = await _questionnaireService.CreateQuestionnaireAsync(createQuestionnaireRequest, default);
@@ -359,5 +366,12 @@ public class QuestionnaireServiceTests : IClassFixture<ApplicationFixture>
         Telegram = "@janedoe_fake",
         Email = "jane.doe@fakemail.com",
         Phone = "+79991234568"
+    };
+
+    private static PsyRequest GetJaneDoePsyRequest() => new()
+    {
+        Id = GetJaneDoeQuestionnaire().Id,
+        Questionnaire = GetJaneDoeQuestionnaire(),
+        PsychologistProfileId = null
     };
 }
