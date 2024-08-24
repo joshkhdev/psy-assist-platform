@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PsyAssistPlatform.Application.Interfaces.Integration;
 using PsyAssistPlatform.Application.Interfaces.Service;
@@ -7,6 +8,7 @@ using PsyAssistPlatform.WebApi.Models.PsychologistProfile;
 namespace PsyAssistPlatform.WebApi.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class PsychologistProfilesController : ControllerBase
 {
@@ -20,7 +22,7 @@ public class PsychologistProfilesController : ControllerBase
         _mapper = mapper;
         _contentService = contentService;
     }
-    
+
     /// <summary>
     /// Получить список активных профилей психологов
     /// </summary>
@@ -46,7 +48,7 @@ public class PsychologistProfilesController : ControllerBase
     /// </summary>
     [HttpGet("{id:int}")]
     public async Task<ActionResult<PsychologistProfileResponse>> GetPsychologistProfileByIdAsync(
-        int id, 
+        int id,
         CancellationToken cancellationToken)
     {
         var psychologistProfile =

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.WebApi.Models.Questionnaire;
@@ -6,6 +7,7 @@ using PsyAssistPlatform.WebApi.Models.Questionnaire;
 namespace PsyAssistPlatform.WebApi.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class QuestionnairesController : ControllerBase
 {
@@ -22,6 +24,7 @@ public class QuestionnairesController : ControllerBase
     /// Получить список всех анкет
     /// </summary>
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IEnumerable<QuestionnaireResponse>> GetAllQuestionnairesAsync(CancellationToken cancellationToken)
     {
         var questionnaires = await _questionnaireService.GetQuestionnairesAsync(cancellationToken);
