@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PsyAssistPlatform.Application.Interfaces.Integration;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.WebApi.Models.PsychologistProfile;
 
@@ -13,11 +14,13 @@ public class PsychologistProfilesController : ControllerBase
 {
     private readonly IPsychologistProfileService _psychologistProfileService;
     private readonly IMapper _mapper;
+    private readonly IContentService _contentService;
 
-    public PsychologistProfilesController(IPsychologistProfileService psychologistProfileService, IMapper mapper)
+    public PsychologistProfilesController(IPsychologistProfileService psychologistProfileService, IMapper mapper, IContentService contentService)
     {
         _psychologistProfileService = psychologistProfileService;
         _mapper = mapper;
+        _contentService = contentService;
     }
 
     /// <summary>
@@ -97,5 +100,15 @@ public class PsychologistProfilesController : ControllerBase
     {
         await _psychologistProfileService.DeactivatePsychologistProfileAsync(id, cancellationToken);
         return Ok();
+    }
+
+    /// <summary>
+    /// Получить контент психолога
+    /// </summary>
+    [HttpGet("{id:int}/content")]
+    public async Task<IActionResult> GetPsychologistContentAsync(int id, int type, CancellationToken cancellationToken)
+    {
+        var response = await _contentService.GetContentAsync(id, type, cancellationToken);
+        return Ok(response);
     }
 }
