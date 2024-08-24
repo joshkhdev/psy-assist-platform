@@ -4,6 +4,8 @@ using MassTransit;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using PsyAssistPlatform.Application.Integrations.Service;
+using PsyAssistPlatform.Application.Interfaces.Integration;
 using PsyAssistFeedback.WebApi.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using PsyAssistPlatform.Application.Interfaces.Repository;
@@ -82,6 +84,11 @@ public class Startup
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        services.AddHttpClient<IContentService, ContentService>(x =>
+        {
+            x.BaseAddress = new Uri(Configuration["ContentSettings:ContentApiUrl"]);
+        });
 
         services.AddDbContext<PsyAssistContext>(options =>
         {
