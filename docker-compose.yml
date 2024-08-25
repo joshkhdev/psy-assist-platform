@@ -1,0 +1,27 @@
+services:
+  #PsyAssistPlatform
+  psy-assist-platform:
+    build:
+      context: /src
+      dockerfile: Dockerfile
+    container_name: 'psy-assist-platform'
+    restart: no
+    ports:
+      - "5070:8080"
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "ConnectionStrings__PsyAssistPlatformDb=Host=psy-assist-platform-db;Database=psyAssistPlatform;Username=psyadmin;Password=12345"          
+    depends_on: 
+      - psy-assist-platform-db
+  
+  #PsyAssistPlatform Db
+  psy-assist-platform-db:
+    image: postgres
+    container_name: 'psy-assist-platform-db'
+    environment:
+      POSTGRES_DB: psyAssistPlatform
+      POSTGRES_USER: psyadmin
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5433:5432"
+    restart: no

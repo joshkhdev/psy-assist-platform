@@ -56,5 +56,11 @@ public class Program
                             retainedFileCountLimit: 30)
                         .CreateLogger();
                 }
+                else
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                    logging.AddDebug();
+                }
             });
 }
