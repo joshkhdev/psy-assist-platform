@@ -80,11 +80,7 @@ public class Startup
 
         services.AddDbContext<PsyAssistContext>(options =>
         {
-            // Если запускаем локально
-            //options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-            // Если запускаем в контейнере
             options.UseNpgsql(Configuration.GetConnectionString("PsyAssistPlatformDb"));
-            
             options.UseLazyLoadingProxies();
             options.EnableSensitiveDataLogging();
         });

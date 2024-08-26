@@ -55,12 +55,11 @@ public class Program
                             rollingInterval: RollingInterval.Day,
                             retainedFileCountLimit: 30)
                         .CreateLogger();
+                    
                 }
-                else
-                {
-                    logging.ClearProviders();
-                    logging.AddConsole();
-                    logging.AddDebug();
-                }
+                
+                logging.ClearProviders();
+                logging.AddConsole();
+                logging.AddDebug();
             });
 }
