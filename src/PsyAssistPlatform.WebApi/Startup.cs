@@ -1,6 +1,5 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MassTransit;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,6 @@ using PsyAssistPlatform.Application.Interfaces.Repository;
 using PsyAssistPlatform.Application.Interfaces.Service;
 using PsyAssistPlatform.Application.Mapping;
 using PsyAssistPlatform.Application.Services;
-using PsyAssistPlatform.Messages;
 using PsyAssistPlatform.Domain;
 using PsyAssistPlatform.Persistence;
 using PsyAssistPlatform.Persistence.Repositories;
@@ -21,10 +19,6 @@ using PsyAssistPlatform.WebApi.Extensions;
 using PsyAssistPlatform.WebApi.Mapping;
 using PsyAssistPlatform.WebApi.Middlewares;
 using PsyAssistPlatform.WebApi.Models.Approach;
-using PsyAssistPlatform.WebApi.Models.Contact;
-using PsyAssistPlatform.WebApi.Models.PsychologistProfile;
-using PsyAssistPlatform.WebApi.Models.Questionnaire;
-using PsyAssistPlatform.WebApi.Models.User;
 using PsyAssistPlatform.WebApi.Services;
 using PsyAssistPlatform.WebApi.TokenValidation;
 
@@ -50,13 +44,6 @@ public class Startup
         services.AddFluentValidationAutoValidation();
         services.AddFluentValidationClientsideAdapters();
         services.AddValidatorsFromAssemblyContaining<CreateApproachRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<UpdateApproachRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<UpdateContactRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<CreatePsychologistProfileRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<UpdatePsychologistProfileRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<CreateQuestionnaireRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<UpdateUserRequestValidator>();
         
         services.AddScoped<IRepository<Approach>, EfCoreRepository<Approach>>();
         services.AddScoped<IRepository<Contact>, EfCoreRepository<Contact>>();
@@ -87,12 +74,13 @@ public class Startup
 
         services.AddHttpClient<IContentService, ContentService>(x =>
         {
-            x.BaseAddress = new Uri(Configuration["ContentSettings:ContentApiUrl"]);
+            x.BaseAddress = new Uri(Configuration["ContentSettings:ContentApiUrl"] ??
+                                    throw new InvalidOperationException("ContentSettings:ContentApiUrl is invalid"));
         });
 
         services.AddDbContext<PsyAssistContext>(options =>
         {
-            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("PsyAssistPlatformDb"));
             options.UseLazyLoadingProxies();
             options.EnableSensitiveDataLogging();
         });

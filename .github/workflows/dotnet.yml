@@ -20,9 +20,9 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/PsyAssistPlatform.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore ./src/PsyAssistPlatform.sln
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: ./PsyAssistPlatform.Tests
+      working-directory: ./src/PsyAssistPlatform.Tests
